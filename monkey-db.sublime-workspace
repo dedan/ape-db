@@ -1,0 +1,597 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "package.json",
+			"settings":
+			{
+				"buffer_size": 7389,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/components/Counter.css",
+			"settings":
+			{
+				"buffer_size": 558,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/components/Counter.js",
+			"settings":
+			{
+				"buffer_size": 1325,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 400.0,
+		"last_filter": "isnt",
+		"selected_items":
+		[
+			[
+				"isnt",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"java",
+				"Set Syntax: JavaScript (Babel)"
+			],
+			[
+				"python",
+				"Set Syntax: Python"
+			],
+			[
+				"ren",
+				"File: Rename"
+			],
+			[
+				"javas",
+				"Set Syntax: JavaScript (Babel)"
+			],
+			[
+				"git",
+				"Preferences: GitGutter Settings"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 475.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/dedan/projects/monkey-db",
+		"/Users/dedan/projects/monkey-db/app",
+		"/Users/dedan/projects/monkey-db/app/actions",
+		"/Users/dedan/projects/monkey-db/app/components",
+		"/Users/dedan/projects/monkey-db/app/containers",
+		"/Users/dedan/projects/monkey-db/test/actions"
+	],
+	"file_history":
+	[
+		"/Users/dedan/projects/monkey-db/app/app.html",
+		"/Users/dedan/projects/monkey-db/app/components/Home.js",
+		"/Users/dedan/projects/monkey-db/app/containers/CounterPage.js",
+		"/Users/dedan/projects/monkey-db/app/containers/HomePage.js",
+		"/Users/dedan/projects/monkey-db/package.json",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlaOWMUP.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlhH1Sco.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlAs_IYE.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlP1Lywy.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlL8exwB.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlrsgN9H.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlnXqaj7.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlyHFPEC.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlroZYdJ.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnltufStU.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnl7PxkRT.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnl0BMiMo.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnl5TtMiK.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlVGwfgb.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlzHMRPm.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlM6NRcT.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlBvC4bk.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlQOzoGY.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlYjx2Gh.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlUH0Cy2.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlrm82Jx.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlga5Vft.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnl0oUO15.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnl7QaSAg.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlYCCIID.txt",
+		"/Users/dedan/Dropbox/nvalt_data/ziele für meine Zeit in San Francisco.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlBAaFFK.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlAjjtAJ.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnluUWy3a.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlNheOXZ.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnleQgPW6.txt",
+		"/Users/dedan/projects/jupyter-linter/README.md",
+		"/Users/dedan/projects/jupyter-linter/test_jupyter_linter.py",
+		"/Users/dedan/projects/jupyter-linter/setup.py",
+		"/Users/dedan/projects/jupyter-linter/jupyter_linter/__init__.py",
+		"/Users/dedan/projects/jupyter-linter/.gitignore",
+		"/Users/dedan/projects/bayes-frontend-talk/index_new.html",
+		"/Users/dedan/projects/paul-emploi/circle.yml",
+		"/Users/dedan/projects/paul-emploi/data_analysis/tests/notebooks_lint_test.py",
+		"/Users/dedan/projects/paul-emploi/docker-compose.yml",
+		"/Users/dedan/projects/paul-emploi/data_analysis/Dockerfile.prepare",
+		"/Users/dedan/projects/paul-emploi/lint_and_test.sh",
+		"/Users/dedan/projects/sffd-vis/package.json",
+		"/Users/dedan/.profile",
+		"/Users/dedan/projects/paul-emploi/data_analysis/Dockerfile.notebooks",
+		"/Users/dedan/projects/paul-emploi/problem_crowdsourcing/README.md",
+		"/Users/dedan/projects/claims-to-quality-extractor/c2q_extractor/lib/integrated_data_repository.py",
+		"/Users/dedan/projects/paul-emploi/.git/rebase-merge/git-rebase-todo",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnljuyyCp.txt",
+		"/Users/dedan/projects/paul-emploi/problem_crowdsourcing/package.json",
+		"/Users/dedan/projects/paul-emploi/frontend/package.json",
+		"/Users/dedan/projects/paul-emploi/paul_emploi.sublime-project",
+		"/Users/dedan/projects/paul-emploi/action_rating/cfg/dist.js",
+		"/Users/dedan/projects/paul-emploi/problem_crowdsourcing/cfg/dist.js",
+		"/Users/dedan/projects/paul-emploi/problem_crowdsourcing/cfg/base.js",
+		"/Users/dedan/projects/paul-emploi/problem_crowdsourcing/src/index.html",
+		"/Users/dedan/projects/paul-emploi/problem_crowdsourcing/src/components/index.jsx",
+		"/Users/dedan/projects/paul-emploi/should_run_ci.sh",
+		"/Users/dedan/projects/paul-emploi/problem_crowdsourcing/.babelrc",
+		"/Users/dedan/projects/paul-emploi/frontend/cfg/dev.js",
+		"/Users/dedan/projects/paul-emploi/problem_crowdsourcing/Dockerfile",
+		"/Users/dedan/projects/paul-emploi/action_rating/src/index.js",
+		"/Users/dedan/projects/paul-emploi/problem_crowdsourcing/src/components/index.js",
+		"/Users/dedan/.config/hub",
+		"/Users/dedan/projects/paul-emploi/problem_crowdsourcing/src/components/main.js",
+		"/Users/dedan/projects/docker-react/Dockerfile",
+		"/Users/dedan/projects/paul-emploi/problem_advice_collect/src/components/main.js",
+		"/Users/dedan/projects/paul-emploi/problem_advice_collect/README.md",
+		"/Users/dedan/projects/paul-emploi/problem_advice_collect/package.json",
+		"/Users/dedan/projects/paul-emploi/problem_advice_collect/src/styles/App.css",
+		"/Users/dedan/projects/paul-emploi/problem_advice_collect/src/index.html",
+		"/Users/dedan/projects/paul-emploi/problem_advice_collect/src/components/index.js",
+		"/Users/dedan/tmp/problem-collection.md",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlCVwm4f.txt",
+		"/Users/dedan/.jrnl_config",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlv7Oxgz.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlWXiZiP.txt",
+		"/Users/dedan/projects/project-noah/frontend/package.json",
+		"/Users/dedan/projects/project-noah/backend/package.json",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlj4ieXy.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlOLfxz7.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlx9u7Kt.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlD8yTVb.txt",
+		"/Users/dedan/projects/project-noah/data_analysis/Dockerfile",
+		"/Users/dedan/projects/project-noah/docker-compose.yml",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlK7d7kf.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlHIBDqC.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlhsrZrh.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnl5HTmFc.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlcjexI4.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnl2Lu5pO.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnl6a58hn.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnl4wIy3W.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlk_71tN.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnl7b3JLK.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlDWvz9f.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnl7egfrP.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlWG5gmJ.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlDpnnsP.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnljxp83s.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlHQqLOQ.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlShdXtI.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlrG9YIz.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnl4dNB6D.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlkRo5Ou.txt",
+		"/var/folders/47/k6ycy2n91kb1tnyz55y8llbc0000gn/T/jrnlohLcN3.txt"
+	],
+	"find":
+	{
+		"height": 42.0
+	},
+	"find_in_files":
+	{
+		"height": 109.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"zo",
+			"jupyter-linter",
+			"linting",
+			"COPY",
+			"git",
+			"frontend",
+			"action_rating",
+			"frontend",
+			"firebase",
+			"autocom",
+			"src",
+			"problem_advice_collect",
+			"frontend",
+			"jest",
+			"Sync",
+			"Dropbox",
+			"maeve",
+			"comple",
+			"cople"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "package.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7389,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7389,
+								7389
+							]
+						],
+						"settings":
+						{
+							"editorconfig": true,
+							"ensure_newline_at_eof_on_save": true,
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"trim_trailing_white_space_on_save": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3546.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/components/Counter.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 558,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"editorconfig": true,
+							"ensure_newline_at_eof_on_save": true,
+							"syntax": "Packages/CSS/CSS.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"trim_trailing_white_space_on_save": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/components/Counter.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1325,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								330,
+								330
+							]
+						],
+						"settings":
+						{
+							"editorconfig": true,
+							"ensure_newline_at_eof_on_save": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"trim_trailing_white_space_on_save": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 30.0
+	},
+	"input":
+	{
+		"height": 39.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "monkey-db.sublime-project",
+	"replace":
+	{
+		"height": 56.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"pack",
+				"package.json"
+			],
+			[
+				"test",
+				"test_jupyter_linter.py"
+			],
+			[
+				"ini",
+				"jupyter_linter/__init__.py"
+			],
+			[
+				"rea",
+				"README.md"
+			],
+			[
+				"set",
+				"setup.py"
+			],
+			[
+				"git",
+				".gitignore"
+			],
+			[
+				"dock",
+				"docker-compose.yml"
+			],
+			[
+				"cir",
+				"circle.yml"
+			],
+			[
+				"noteb",
+				"data_analysis/tests/notebooks_lint_test.py"
+			],
+			[
+				"docker",
+				"data_analysis/Dockerfile.prepare"
+			],
+			[
+				"note",
+				"data_analysis/tests/notebooks_lint_test.py"
+			],
+			[
+				"docke",
+				"data_analysis/Dockerfile.notebooks"
+			],
+			[
+				"crowread",
+				"problem_crowdsourcing/README.md"
+			],
+			[
+				"circ",
+				"circle.yml"
+			],
+			[
+				"dockcom",
+				"docker-compose.yml"
+			],
+			[
+				"frontpack",
+				"frontend/package.json"
+			],
+			[
+				"problempack",
+				"problem_crowdsourcing/package.json"
+			],
+			[
+				"dist",
+				"problem_crowdsourcing/cfg/dist.js"
+			],
+			[
+				"base",
+				"problem_crowdsourcing/cfg/base.js"
+			],
+			[
+				"dis",
+				"action_rating/cfg/dist.js"
+			],
+			[
+				"read",
+				"problem_crowdsourcing/README.md"
+			],
+			[
+				"shou",
+				"should_run_ci.sh"
+			],
+			[
+				"babl",
+				"problem_crowdsourcing/.babelrc"
+			],
+			[
+				"inde",
+				"problem_crowdsourcing/src/index.html"
+			],
+			[
+				"index",
+				"problem_crowdsourcing/src/components/index.jsx"
+			],
+			[
+				"indexjs",
+				"problem_crowdsourcing/src/components/index.js"
+			],
+			[
+				"dev",
+				"frontend/cfg/dev.js"
+			],
+			[
+				"main",
+				"problem_crowdsourcing/src/components/main.js"
+			],
+			[
+				"problcor",
+				"problem_crowdsourcing/package.json"
+			],
+			[
+				"problemrea",
+				"problem_crowdsourcing/README.md"
+			],
+			[
+				"probappc",
+				"problem_advice_collect/src/styles/App.css"
+			],
+			[
+				"indexhtml",
+				"problem_advice_collect/src/index.html"
+			],
+			[
+				"probadpack",
+				"problem_advice_collect/package.json"
+			],
+			[
+				"fronpc",
+				"frontend/package.json"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 211.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
