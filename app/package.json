@@ -14,5 +14,8 @@
   },
   "license": "MIT",
   "dependencies": {
+    "fs-extra": "^3.0.1",
+    "material-ui": "^0.18.1",
+    "react-tap-event-plugin": "^2.0.1"
   }
 }
