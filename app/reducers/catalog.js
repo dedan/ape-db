@@ -16,12 +16,14 @@ const initialState = {
 }
 
 function updatePage(catalog, action, props) {
+  const currentBook = catalog[action.book] || {}
+  const currentPage = currentBook[action.page] || {}
   return {
     ...catalog,
     [action.book]: {
-      ...catalog[action.book],
+      ...currentBook,
       [action.page]: {
-        ...catalog[action.book][action.page],
+        ...currentPage,
         ...props
       }
     }
