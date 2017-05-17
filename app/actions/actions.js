@@ -35,7 +35,6 @@ export function addFile(relFilePath, fstat) {
     }
 
     const [book, page, fileName] = splitPath
-    console.log('>>', book, page, fileName)
     if (!BOOK_REG.test(book)) {
       dispatch({type: INVALID_BOOK_ERROR, book, relFilePath})
     }

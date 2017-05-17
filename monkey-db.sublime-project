@@ -6,7 +6,10 @@
             "folder_exclude_patterns": [
                 "node_modules",
                 "dist",
-                "dll"
+                "dll",
+                "flow",
+                "flow-typed",
+                "release"
             ]
 		}
 	]
