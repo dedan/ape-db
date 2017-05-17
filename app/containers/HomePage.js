@@ -3,13 +3,15 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import path from 'path'
 import Catalog from '../components/Catalog';
+import FileAdder from '../components/FileAdder';
 
 class HomePage extends Component {
   render() {
-    const {allPages} = this.props
+    const {allPages, settings} = this.props
     return (
       <div>
         <Header />
+        <FileAdder basePath={settings.path} />
         <Catalog allPages={allPages} />
       </div>
     );
@@ -34,7 +36,7 @@ function mapStateToProps(state) {
       allPages.push(pageObject)
     })
   })
-  return {allPages}
+  return {allPages, settings}
 }
 
 export default connect(mapStateToProps)(HomePage)
