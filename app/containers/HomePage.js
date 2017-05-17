@@ -25,10 +25,10 @@ class Header extends Component {
 function mapStateToProps(state) {
   const allPages = []
   const {settings} = state
-  Object.keys(state.catalog.books).forEach(book => {
-    Object.keys(state.catalog.books[book].pages).forEach(page => {
+  Object.keys(state.catalog).forEach(book => {
+    Object.keys(state.catalog[book]).forEach(page => {
       const pageObject = {
-        ...state.catalog.books[book].pages[page],
+        ...state.catalog[book][page],
         pagePath: [settings.path, book, page].join(path.sep)
       }
       allPages.push(pageObject)
