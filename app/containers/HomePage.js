@@ -4,14 +4,26 @@ import {connect} from 'react-redux'
 import path from 'path'
 import Catalog from '../components/Catalog';
 import FileAdder from '../components/FileAdder';
+import {addFile} from '../actions/actions'
 
 class HomePage extends Component {
+
+  handleFileCopied = relFilePath => {
+    const {dispatch} = this.props
+    const fakeFstat = {
+      isDirectory: () => false
+    }
+    dispatch(addFile(relFilePath, fakeFstat))
+  }
+
   render() {
     const {allPages, settings} = this.props
     return (
       <div>
         <Header />
-        <FileAdder basePath={settings.path} />
+        <FileAdder
+            basePath={settings.path}
+            onFileCopied={this.handleFileCopied} />
         <Catalog allPages={allPages} />
       </div>
     );

@@ -31,16 +31,19 @@ export default class FileAdder extends Component {
   }
 
   handleDialogClose = fileNameInfo => {
-    const {basePath} = this.props
-    const bookPath = [basePath, fileNameInfo.book].join(path.sep)
-    const pagePath = [bookPath, fileNameInfo.page].join(path.sep)
-    const filePath = [pagePath, fileNameInfo.fileName].join(path.sep)
+    const {basePath, onFileCopied} = this.props
+    const {book, page, fileName} = fileNameInfo
+    const bookPath = [basePath, book].join(path.sep);
+    const pagePath = [bookPath, page].join(path.sep);
+    const filePath = [pagePath, fileName].join(path.sep);
     [bookPath, pagePath].forEach(pathToCheck => {
       if (!fs.existsSync(pathToCheck)) {
         fs.mkdirSync(pathToCheck)
       }
     })
     fs.copySync(this.state.path, filePath);
+    const relFilePath = [book, page, fileName].join(path.sep)
+    onFileCopied(relFilePath)
     this.setState({path: ''})
   }
 
