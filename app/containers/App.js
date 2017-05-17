@@ -1,16 +1,20 @@
-// @flow
+// TODO: activate flow again
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import React, { Component } from 'react';
-import type { Children } from 'react';
+import type { Children} from 'react';
 import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
 import SettingsDialog from '../components/SettingsDialog'
-import {setSettings} from '../actions/actions'
+import * as Actions from '../actions/actions'
+import type {settingsStateType, actionType} from '../reducers/settings'
 
 
 class App extends Component {
   props: {
     children: Children,
+    settings: settingsStateType,
+    setSettings: () => void,
   };
 
   constructor(props) {
@@ -18,19 +22,15 @@ class App extends Component {
     injectTapEventPlugin();
   }
 
-  handleSaveSettings = settings => {
-    this.props.dispatch(setSettings(settings))
-  }
-
   render() {
-    const {settings} = this.props
+    const {settings, setSettings} = this.props
     return (
       <MuiThemeProvider>
         <div>
           {this.props.children}
           <SettingsDialog
               isOpen={!settings.path} settings={settings}
-              onSaveSettings={this.handleSaveSettings} />
+              onSaveSettings={setSettings} />
         </div>
       </MuiThemeProvider>
     );
@@ -43,4 +43,8 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(App)
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(Actions, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

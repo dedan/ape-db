@@ -5,7 +5,7 @@ export type settingsStateType = {
   path: string,
 };
 
-type actionType = {
+export type actionType = {
   type: string,
 };
 
