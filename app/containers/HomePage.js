@@ -9,11 +9,12 @@ import {addFile} from '../actions/actions'
 class HomePage extends Component {
 
   handleFileCopied = relFilePath => {
-    const {dispatch} = this.props
+    const {dispatch, settings} = this.props
     const fakeFstat = {
       isDirectory: () => false
     }
-    dispatch(addFile(relFilePath, fakeFstat))
+    const absPath = [settings.path, relFilePath].join(path.sep)
+    dispatch(addFile(absPath, relFilePath, fakeFstat))
   }
 
   render() {
@@ -43,6 +44,8 @@ function mapStateToProps(state) {
     Object.keys(state.catalog[book]).forEach(page => {
       const pageObject = {
         ...state.catalog[book][page],
+        book,
+        page,
         pagePath: [settings.path, book, page].join(path.sep)
       }
       allPages.push(pageObject)

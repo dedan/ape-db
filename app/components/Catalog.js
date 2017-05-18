@@ -10,7 +10,7 @@ export default class Catalog extends Component {
       <h1>Catalog</h1>
       <ul>
         {allPages.map(page => {
-          const filePath = 'file://' + [page.pagePath, page.original].join(path.sep)
+          const filePath = 'file://' + page.original
           return <li key={page.original}>
             <img src={filePath} width="100" height="100" />
             {page.original }

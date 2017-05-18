@@ -33,12 +33,12 @@ storage.get('settings', function(error, data) {
           // Finished walking the tree
           Object.keys(f).forEach(filePath => {
             const relFilePath = filePath.slice(pathLength + 1)
-            store.dispatch(addFile(relFilePath, f[filePath]))
+            store.dispatch(addFile(filePath, relFilePath, f[filePath]))
           })
         } else if (prev === null) {
           // f is a new file
           const relFilePath = f.slice(pathLength + 1)
-          store.dispatch(addFile(relFilePath, curr))
+          store.dispatch(addFile(f, relFilePath, curr))
         }
       })
     }

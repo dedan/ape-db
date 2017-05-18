@@ -25,7 +25,7 @@ const PAGE_REG = /p\d{3}/
 const ORIGINAL_REG = /\w{2}\.\w+\.[MF]\.\d\.\d{4}_p\d{3}.jpg/
 const THUMBNAIL_REG = /\w{2}\.\w+\.[MF]\.\d\.\d{4}_p\d{3}_thumbnail.jpg/
 
-export function addFile(relFilePath, fstat) {
+export function addFile(absPath, relFilePath, fstat) {
   return (dispatch: () => void) => {
 
     const splitPath = relFilePath.split(path.sep)
@@ -58,6 +58,7 @@ export function addFile(relFilePath, fstat) {
       page,
       fileName,
       relFilePath,
+      absPath,
     }
     dispatch(action)
   }

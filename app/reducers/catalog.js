@@ -33,7 +33,7 @@ function updatePage(catalog, action, props) {
 export default function catalog(state = initialState, action) {
   switch (action.type) {
     case ADD_ORIGINAL:
-      return updatePage(state, action, {original: action.fileName})
+      return updatePage(state, action, {original: action.absPath})
     default:
       return state;
   }
