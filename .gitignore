@@ -55,3 +55,6 @@ __snapshots__
 # Test folder for quick tests
 test/test-folder
 test/test-forms
+
+# Python
+.ipynb_checkpoints
