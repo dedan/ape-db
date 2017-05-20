@@ -69,6 +69,8 @@ function mapStateToProps(state, ownProps) {
   return {
     currentPage: state.catalog[book][page],
     basePath: state.settings.path,
+    book,
+    page,
   }
 }
 

@@ -43,21 +43,24 @@ export function addFile(absPath, relFilePath, fstat) {
     }
 
     let actionType
+    let entry
     if (ORIGINAL_REG.test(fileName)) {
       actionType = ADD_ORIGINAL
     } else if (THUMBNAIL_REG.test(fileName)) {
       actionType = ADD_THUMBNAIL
     } else if (fileName.endsWith('.json')) {
       actionType = ADD_ENTRY
+      entry = fileName.slice(0, -5)
     } else {
       return
     }
+
     const action = {
       type: actionType,
       book,
       page,
+      entry,
       fileName,
-      relFilePath,
       absPath,
     }
     dispatch(action)

@@ -15,7 +15,7 @@ const initialState = {
   }
 }
 
-function updatePage(catalog, action, props) {
+function upsertPage(catalog, action, props) {
   const currentBook = catalog[action.book] || {}
   const currentPage = currentBook[action.page] || {}
   return {
@@ -30,10 +30,33 @@ function updatePage(catalog, action, props) {
   }
 }
 
+function upsertEntry(catalog, action, props) {
+  const currentBook = catalog[action.book] || {}
+  const currentPage = currentBook[action.page] || {}
+  const currentEntry = currentBook[action.entry] || {}
+  return {
+    ...catalog,
+    [action.book]: {
+      ...currentBook,
+      [action.page]: {
+        ...currentPage,
+        entries: {
+          [action.entry]: {
+            ...currentEntry,
+            ...props,
+          }
+        }
+      }
+    }
+  }
+}
+
 export default function catalog(state = initialState, action) {
   switch (action.type) {
     case ADD_ORIGINAL:
-      return updatePage(state, action, {original: action.absPath})
+      return upsertPage(state, action, {original: action.absPath})
+    case ADD_ENTRY:
+      return upsertEntry(state, action, {path: action.absPath})
     default:
       return state;
   }

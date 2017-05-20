@@ -46,7 +46,6 @@ function mapStateToProps(state) {
         ...state.catalog[book][page],
         book,
         page,
-        pagePath: [settings.path, book, page].join(path.sep)
       }
       allPages.push(pageObject)
     })
