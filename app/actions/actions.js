@@ -56,12 +56,15 @@ export function loadCatalog(basePath) {
           return
         case 'ENTRY':
           const entry = file.fileName.slice(0, -5)
+          const [entryNumber, form] = entry.split('_')
           if (!currentPage.entries[entry]) {
             currentPage.entries[entry] = {}
           }
-          const currentEntry = currentPage.entries[entry]
-          currentEntry.path = pathStats.path
-          return
+          currentPage.entries[entry] = {
+            path: pathStats.path,
+            entryNumber,
+            form,
+          }
       }
     })
     console.log('>>', catalog)

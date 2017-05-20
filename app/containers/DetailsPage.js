@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {connect} from 'react-redux'
@@ -10,20 +9,34 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import {List, ListItem} from 'material-ui/List';
 
-
-const schema = fs.readJsonSync('/Users/dedan/projects/monkey-db/test/test-forms/N-BSC.json')
+const FORMS_PATH = '/Users/dedan/projects/monkey-db/test/test-forms/'
 
 class DetailsPage extends Component {
+
+  state = {
+    currentEntry: null,
+    currentEntryData: null,
+  }
 
   handleFormSubmit = ({schema, formData}) => {
     // TODO: Store form at basePath/book/page/entryNumber_formCode.json
     console.log('>>', schema, formData)
   }
 
+  handleEntryClick = entryId => {
+    const {entries} = this.props.currentPage
+    const currentEntry = entries[entryId]
+    const currentEntryData = fs.readJsonSync(currentEntry.path)
+    // TODO: Cache schemata.
+    const currentEntrySchema = fs.readJsonSync(FORMS_PATH + currentEntry.form + '.json')
+    this.setState({currentEntry, currentEntryData, currentEntrySchema})
+  }
+
   render() {
     const {basePath, currentPage} = this.props
-    console.log('>>', currentPage)
+    const {currentEntryData, currentEntrySchema} = this.state
     const imagePath = [basePath, currentPage]
     return (
       <div>
@@ -38,9 +51,20 @@ class DetailsPage extends Component {
               img={'file://' + currentPage.original} />
         </div>
         <br />
-        <div>
-          <Form schema={schema}
+        <div style={{display: 'flex'}}>
+          <List style={{width: 300}}>
+            {Object.keys(currentPage.entries).map(entryId => {
+              return <ListItem
+                  onClick={() => this.handleEntryClick(entryId)}
+                  key={entryId} primaryText={entryId} />
+            })}
+          </List>
+          {currentEntryData ?
+            <Form
+                schema={currentEntrySchema}
+                formData={currentEntryData}
                 onSubmit={this.handleFormSubmit} />
+            : null}
         </div>
       </div>
     );
