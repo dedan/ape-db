@@ -46,7 +46,7 @@ class DetailsPage extends Component {
         </Link>
         <div style={{height: 300}}>
           <ReactImageZoom
-              width={400} height={250} zoomWidth={400}
+              width={400} height={400} zoomWidth={500}
               offset={{vertical: 0, horizontal: 10}}
               img={'file://' + currentPage.original} />
         </div>

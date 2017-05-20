@@ -28,7 +28,7 @@ export default class Catalog extends Component {
         </TableHeader>
         <TableBody displayRowCheckbox={false}>
           {allPages.map(page => {
-            const filePath = 'file://' + page.original
+            const filePath = 'file://' + page.thumbnail
             const key = [page.book, page.page].join('-')
             return <TableRow key={key}>
               <TableRowColumn>

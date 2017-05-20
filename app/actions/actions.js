@@ -54,6 +54,9 @@ export function loadCatalog(basePath) {
         case 'ORIGINAL':
           currentPage.original = pathStats.path
           return
+        case 'THUMBNAIL':
+          currentPage.thumbnail = pathStats.path
+          return
         case 'ENTRY':
           const entry = file.fileName.slice(0, -5)
           const [entryNumber, form] = entry.split('_')
