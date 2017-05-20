@@ -21,19 +21,12 @@ class HomePage extends Component {
     const {allPages, settings} = this.props
     return (
       <div>
-        <Header />
         <FileAdder
             basePath={settings.path}
             onFileCopied={this.handleFileCopied} />
         <Catalog allPages={allPages} />
       </div>
     );
-  }
-}
-
-class Header extends Component {
-  render() {
-    return <div>Head</div>
   }
 }
 
