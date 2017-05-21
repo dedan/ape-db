@@ -1,6 +1,10 @@
 const storage = require('electron-json-storage');
 const klawSync = require('klaw-sync');
 import path from 'path'
+var Ajv = require('ajv');
+var ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
+import fs from 'fs-extra'
+import {getAllPages} from '../selectors/catalog'
 
 export const SET_SETTINGS = 'SET_SETTINGS'
 export const INVALID_BOOK_ERROR = 'INVALID_BOOK_ERROR'
@@ -10,6 +14,8 @@ export const ADD_CATALOG = 'ADD_CATALOG'
 export const ADD_ORIGINAL = 'ADD_ORIGINAL'
 export const ADD_THUMBNAIL = 'ADD_THUMBNAIL'
 export const ADD_ENTRY = 'ADD_ENTRY'
+export const START_ENTRIES_VALIDATION = 'START_ENTRIES_VALIDATION'
+export const UPDATE_ALL_ENTRIES = 'UPDATE_ALL_ENTRIES'
 
 const BOOK_REG = /\w{2}\.\w+\.[MF]\.\d\.\d{4}/
 const PAGE_REG = /p\d{3}/
@@ -27,6 +33,45 @@ export function setSettings(settings) {
     settings
   }
 }
+
+export function validateEntries() {
+  return (dispatch, getState) => {
+    dispatch({type: START_ENTRIES_VALIDATION})
+    const entries = getState().catalog.entries
+    const schemata = getAllSchemata()
+    Object.keys(entries).forEach(entryId => {
+      const entry = entries[entryId]
+      const schema = schemata[entry.form]
+      try {
+        var valid = ajv.validate(schema, entry);
+        entries[entryId] = {
+          ...entry,
+          isValidated: true,
+          isValid: valid,
+          errors: valid ? null : ajv.errors,
+        }
+      }
+      catch (e) {
+      }
+    })
+    dispatch({type: UPDATE_ALL_ENTRIES, entries})
+  }
+}
+
+function getAllSchemata() {
+  const FORMS_PATH = '/Users/dedan/projects/monkey-db/test/test-forms/'
+  const formFiles = fs.readdirSync(FORMS_PATH)
+  const res = {}
+  formFiles.forEach(formFile => {
+    if (!formFile.endsWith('.json')) {
+      return
+    }
+    const formName = path.basename(formFile, '.json')
+    res[formName] = fs.readJsonSync([FORMS_PATH, formFile].join(path.sep))
+  })
+  return res
+}
+
 
 export function loadCatalog(basePath) {
   return dispatch => {

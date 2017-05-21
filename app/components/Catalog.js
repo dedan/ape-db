@@ -12,6 +12,7 @@ import {
 import Chip from 'material-ui/Chip';
 import {connect} from 'react-redux'
 import {validateEntries} from '../actions/actions'
+import {green300, red300} from 'material-ui/styles/colors';
 
 class Catalog extends Component {
 
@@ -70,8 +71,14 @@ class Catalog extends Component {
               <TableRowColumn>
                 <div style={{display: 'flex', flexWrap: 'wrap'}}>
                   {page.entries.map((entryId, i) => {
-                    return <Chip key={i} style={{margin: 4}}>
-                      {entries[entryId].form}
+                    const entry = entries[entryId]
+                    const color = entry.isValidated ?
+                      entry.isValid ? green300 : red300
+                      : null
+                    return <Chip
+                        backgroundColor={color}
+                        key={i} style={{margin: 4}}>
+                      {entry.form}
                     </Chip>
                   })}
                 </div>
