@@ -9,14 +9,35 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
+import Chip from 'material-ui/Chip';
 
 export default class Catalog extends Component {
 
+  state = {
+    onlyWithEntries: false,
+  }
+
   render() {
     const {allPages} = this.props
+    const {onlyWithEntries} = this.state
+
+    // TODO: Move filtering to reducer and selector.
+    const filteredPages = allPages.filter(page => {
+      return !onlyWithEntries || Object.keys(page.entries).length
+    })
 
     return <div>
       <h1>Catalog</h1>
+      <div>
+        <h2>Filters</h2>
+        <label>
+          only with entries
+          <input
+              type="checkbox"
+              value={onlyWithEntries}
+              onClick={() => this.setState({onlyWithEntries: !onlyWithEntries})} />
+        </label>
+      </div>
       <Table>
         <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
           <TableRow>
@@ -24,10 +45,11 @@ export default class Catalog extends Component {
             <TableHeaderColumn>Book</TableHeaderColumn>
             <TableHeaderColumn>Page</TableHeaderColumn>
             <TableHeaderColumn>Link</TableHeaderColumn>
+            <TableHeaderColumn>Entries</TableHeaderColumn>
           </TableRow>
         </TableHeader>
         <TableBody displayRowCheckbox={false}>
-          {allPages.map(page => {
+          {filteredPages.map(page => {
             const filePath = 'file://' + page.thumbnail
             const key = [page.book, page.page].join('-')
             return <TableRow key={key}>
@@ -38,6 +60,15 @@ export default class Catalog extends Component {
               <TableRowColumn>{page.page}</TableRowColumn>
               <TableRowColumn>
                 <Link to={`/current-page/${page.book}/${page.page}`}>Edit</Link>
+              </TableRowColumn>
+              <TableRowColumn>
+                <div style={{display: 'flex', flexWrap: 'wrap'}}>
+                  {Object.keys(page.entries).map((entryId, i) => {
+                    return <Chip key={i} style={{margin: 4}}>
+                      {page.entries[entryId].form}
+                    </Chip>
+                  })}
+                </div>
               </TableRowColumn>
             </TableRow>
           })}
