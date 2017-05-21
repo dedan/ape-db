@@ -30,7 +30,8 @@ export function setSettings(settings) {
 
 export function loadCatalog(basePath) {
   return dispatch => {
-    let catalog = {}
+    let books = {}
+    let entries = {}
     const filterFn = item => item.path.indexOf('.DS_Store') < 0
     const paths = klawSync(basePath, {filter: filterFn, nodir: true})
     paths.forEach(pathStats => {
@@ -40,14 +41,14 @@ export function loadCatalog(basePath) {
         return
       }
 
-      if (!catalog[file.book]) {
-        catalog[file.book] = {}
+      if (!books[file.book]) {
+        books[file.book] = {}
       }
-      const currentBook = catalog[file.book]
+      const currentBook = books[file.book]
       if (!currentBook[file.page]) {
-        currentBook[file.page] = {entries: {}}
+        currentBook[file.page] = {entries: []}
       }
-      const currentPage = catalog[file.book][file.page]
+      const currentPage = currentBook[file.page]
 
       const fileType = getFileType(file.fileName)
       switch (fileType) {
@@ -58,18 +59,17 @@ export function loadCatalog(basePath) {
           currentPage.thumbnail = pathStats.path
           return
         case 'ENTRY':
-          const entry = file.fileName.slice(0, -5)
-          const [entryNumber, form] = entry.split('_')
-          if (!currentPage.entries[entry]) {
-            currentPage.entries[entry] = {}
-          }
-          currentPage.entries[entry] = {
+          const entryId = file.fileName.slice(0, -5)
+          const [entryNumber, form] = entryId.split('_')
+          currentPage.entries.push(entryId)
+          entries[entryId] = {
             path: pathStats.path,
             entryNumber,
             form,
           }
       }
     })
+    const catalog = {books, entries}
     console.log('>>', catalog)
     dispatch({type: ADD_CATALOG, catalog})
   }

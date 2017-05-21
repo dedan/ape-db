@@ -5,6 +5,7 @@ import path from 'path'
 import Catalog from '../components/Catalog';
 import FileAdder from '../components/FileAdder';
 import {addFile} from '../actions/actions'
+import {getAllPages} from '../selectors/catalog'
 
 class HomePage extends Component {
 
@@ -18,32 +19,22 @@ class HomePage extends Component {
   }
 
   render() {
-    const {allPages, settings} = this.props
+    const {allPages, entries, settings} = this.props
     return (
       <div>
         <FileAdder
             basePath={settings.path}
             onFileCopied={this.handleFileCopied} />
-        <Catalog allPages={allPages} />
+        <Catalog allPages={allPages} entries={entries} />
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  const allPages = []
   const {settings} = state
-  Object.keys(state.catalog).forEach(book => {
-    Object.keys(state.catalog[book]).forEach(page => {
-      const pageObject = {
-        ...state.catalog[book][page],
-        book,
-        page,
-      }
-      allPages.push(pageObject)
-    })
-  })
-  return {allPages, settings}
+  const allPages = getAllPages(state.catalog)
+  return {allPages, entries: state.catalog.entries, settings}
 }
 
 export default connect(mapStateToProps)(HomePage)

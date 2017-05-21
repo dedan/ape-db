@@ -10,20 +10,22 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 import Chip from 'material-ui/Chip';
+import {connect} from 'react-redux'
+import {validateEntries} from '../actions/actions'
 
-export default class Catalog extends Component {
+class Catalog extends Component {
 
   state = {
-    onlyWithEntries: false,
+    onlyWithEntries: true,
   }
 
   render() {
-    const {allPages} = this.props
+    const {allPages, entries, dispatch} = this.props
     const {onlyWithEntries} = this.state
 
     // TODO: Move filtering to reducer and selector.
     const filteredPages = allPages.filter(page => {
-      return !onlyWithEntries || Object.keys(page.entries).length
+      return !onlyWithEntries || page.entries.length
     })
 
     return <div>
@@ -34,9 +36,13 @@ export default class Catalog extends Component {
           only with entries
           <input
               type="checkbox"
-              value={onlyWithEntries}
+              checked={onlyWithEntries}
               onClick={() => this.setState({onlyWithEntries: !onlyWithEntries})} />
         </label>
+      </div>
+      <div>
+        <h2>Validation</h2>
+        <button onClick={() => dispatch(validateEntries())}>validate entries</button>
       </div>
       <Table>
         <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
@@ -63,9 +69,9 @@ export default class Catalog extends Component {
               </TableRowColumn>
               <TableRowColumn>
                 <div style={{display: 'flex', flexWrap: 'wrap'}}>
-                  {Object.keys(page.entries).map((entryId, i) => {
+                  {page.entries.map((entryId, i) => {
                     return <Chip key={i} style={{margin: 4}}>
-                      {page.entries[entryId].form}
+                      {entries[entryId].form}
                     </Chip>
                   })}
                 </div>
@@ -79,3 +85,5 @@ export default class Catalog extends Component {
     </div>
   }
 }
+
+export default connect()(Catalog)
