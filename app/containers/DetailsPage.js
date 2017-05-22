@@ -10,6 +10,7 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import {List, ListItem} from 'material-ui/List';
+import _ from 'underscore'
 
 const FORMS_PATH = '/Users/dedan/projects/monkey-db/test/test-forms/'
 
@@ -26,8 +27,7 @@ class DetailsPage extends Component {
   }
 
   handleEntryClick = entryId => {
-    const {entries} = this.props.currentPage
-    const currentEntry = entries[entryId]
+    const currentEntry = this.props.pageEntries[entryId]
     const currentEntryData = fs.readJsonSync(currentEntry.path)
     // TODO: Cache schemata.
     const currentEntrySchema = fs.readJsonSync(FORMS_PATH + currentEntry.form + '.json')
@@ -35,7 +35,7 @@ class DetailsPage extends Component {
   }
 
   render() {
-    const {basePath, currentPage} = this.props
+    const {basePath, currentPage, pageEntries} = this.props
     const {currentEntryData, currentEntrySchema} = this.state
     const imagePath = [basePath, currentPage]
     return (
@@ -44,7 +44,7 @@ class DetailsPage extends Component {
         <Link to="/">
           <i className="fa fa-arrow-left fa-3x" />
         </Link>
-        <div style={{height: 300}}>
+        <div style={{height: 400}}>
           <ReactImageZoom
               width={400} height={400} zoomWidth={500}
               offset={{vertical: 0, horizontal: 10}}
@@ -53,10 +53,11 @@ class DetailsPage extends Component {
         <br />
         <div style={{display: 'flex'}}>
           <List style={{width: 300}}>
-            {Object.keys(currentPage.entries).map(entryId => {
+            {_.map(pageEntries, entry => {
               return <ListItem
-                  onClick={() => this.handleEntryClick(entryId)}
-                  key={entryId} primaryText={entryId} />
+                  onClick={() => this.handleEntryClick(entry.entryId)}
+                  key={entry.entryId}
+                  primaryText={entry.entryNumber} />
             })}
           </List>
           {currentEntryData ?
@@ -90,8 +91,12 @@ class NewEntryDialog extends Component {
 
 function mapStateToProps(state, ownProps) {
   const {book, page} = ownProps.match.params
+  const {books, entries} = state.catalog
+  const currentPage = books[book][page]
+  const pageEntries = _.pick(entries, currentPage.entries)
   return {
-    currentPage: state.catalog[book][page],
+    currentPage,
+    pageEntries,
     basePath: state.settings.path,
     book,
     page,

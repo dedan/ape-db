@@ -112,6 +112,7 @@ export function loadCatalog(basePath) {
             path: pathStats.path,
             entryNumber,
             form,
+            entryId,
           }
       }
     })
