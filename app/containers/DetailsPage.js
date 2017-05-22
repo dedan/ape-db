@@ -31,8 +31,9 @@ class DetailsPage extends Component {
     this.loadFormData(nextProps.currentEntry)
   }
 
-  componentWillMount(props) {
-    this.loadFormData(this.props.currentEntry)
+  componentWillMount() {
+    const {currentEntry} = this.props
+    currentEntry && this.loadFormData(currentEntry)
   }
 
   loadFormData = currentEntry => {
@@ -67,7 +68,7 @@ class DetailsPage extends Component {
               </Link>
             })}
           </List>
-          {currentEntryData ? <div>
+          {currentEntryData && currentEntry ? <div>
               {currentEntry.entryId}
               <Form
                   schema={schema}
