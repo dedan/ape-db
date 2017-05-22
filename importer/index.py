@@ -54,11 +54,23 @@ def _get_number_string_definition(title, number_string):
         'pattern': number_string.replace('#', '\d') + '|Ø'
     }
 
-def _get_temperature_field(title):
+def _get_temperature_definition(title):
     return {
         'title': title,
         'type': 'string',
         'pattern': '(\d+(\.\d+)?\w?[CF])|Ø',
+    }
+
+def _get_enum_definition(title, form_values, values):
+    form_values, values = list(form_values), list(values)
+    enum_names = [
+        name if name != '[as written]' else values[i]
+        for i, name in enumerate(form_values)]
+    return {
+        'title': title,
+        'enum': values,
+        'enumNames': enum_names,
+        'type': 'string',
     }
 
 def _grouper(g):
@@ -78,14 +90,10 @@ def _grouper(g):
         return _get_number_string_definition(title, first_value)
     # Temperature field
     elif 'Temperature' in title:
-        return _get_temperature_field(title)
+        return _get_temperature_definition(title)
     else:
-        return {
-            'title': str(g.form_variable.iloc[0]),
-            'enum': list(g.value),
-            'enumNames': list(g.form_value),
-            'type': 'string',
-        }
+        return _get_enum_definition(title, g.form_value, g.value)
+
 
 if __name__ == '__main__':
     SHEET_PATH = '/Users/dedan/tmp/OU.OrangutanName.S.1.2017.xls'
