@@ -58,3 +58,5 @@ test/test-forms
 
 # Python
 .ipynb_checkpoints
+.cache
+__pycache__
