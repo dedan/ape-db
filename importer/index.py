@@ -51,7 +51,7 @@ def _get_number_string_definition(title, number_string):
     return {
         'title': title,
         'type': 'string',
-        'pattern': number_string.replace('#', '\d') + '|Ø'
+        'pattern': number_string.replace('#', '\d').replace('.', '\.') + '|Ø'
     }
 
 def _get_temperature_definition(title):
