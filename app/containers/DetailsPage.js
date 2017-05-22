@@ -11,8 +11,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import {List, ListItem} from 'material-ui/List';
 import _ from 'underscore'
-
-const FORMS_PATH = '/Users/dedan/projects/monkey-db/test/test-forms/'
+import {getSchema} from '../store/schema'
 
 class DetailsPage extends Component {
 
@@ -23,20 +22,19 @@ class DetailsPage extends Component {
 
   handleFormSubmit = ({schema, formData}) => {
     // TODO: Store form at basePath/book/page/entryNumber_formCode.json
-    console.log('>>', schema, formData)
+    console.log('>>a', schema, formData)
   }
 
   handleEntryClick = entryId => {
     const currentEntry = this.props.pageEntries[entryId]
     const currentEntryData = fs.readJsonSync(currentEntry.path)
-    // TODO: Cache schemata.
-    const currentEntrySchema = fs.readJsonSync(FORMS_PATH + currentEntry.form + '.json')
-    this.setState({currentEntry, currentEntryData, currentEntrySchema})
+    const schema = getSchema(currentEntry.form)
+    this.setState({currentEntry, currentEntryData, schema})
   }
 
   render() {
     const {basePath, currentPage, pageEntries} = this.props
-    const {currentEntryData, currentEntrySchema} = this.state
+    const {currentEntryData, schema} = this.state
     const imagePath = [basePath, currentPage]
     return (
       <div>
@@ -62,7 +60,7 @@ class DetailsPage extends Component {
           </List>
           {currentEntryData ?
             <Form
-                schema={currentEntrySchema}
+                schema={schema}
                 formData={currentEntryData}
                 onSubmit={this.handleFormSubmit} />
             : null}
