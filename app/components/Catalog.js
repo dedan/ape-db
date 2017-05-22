@@ -18,15 +18,20 @@ class Catalog extends Component {
 
   state = {
     onlyWithEntries: true,
+    onlyWithInvalidEntries: false,
   }
 
   render() {
     const {allPages, entries, dispatch} = this.props
-    const {onlyWithEntries} = this.state
+    const {onlyWithEntries, onlyWithInvalidEntries} = this.state
 
-    // TODO: Move filtering to reducer and selector.
+    // TODO: Move filtering to reducer and selector to have it non blocking.
     const filteredPages = allPages.filter(page => {
-      return !onlyWithEntries || page.entries.length
+      return !onlyWithEntries || page.entries.length &&
+        !onlyWithInvalidEntries || page.entries.some(entryId => {
+          const entry = entries[entryId]
+          return entry.isValidated && !entry.isValid
+        })
     })
 
     return <div>
@@ -38,7 +43,14 @@ class Catalog extends Component {
           <input
               type="checkbox"
               checked={onlyWithEntries}
-              onClick={() => this.setState({onlyWithEntries: !onlyWithEntries})} />
+              onChange={() => this.setState({onlyWithEntries: !onlyWithEntries})} />
+        </label>
+        <label>
+          only with invalid entries
+          <input
+              type="checkbox"
+              checked={onlyWithInvalidEntries}
+              onChange={() => this.setState({onlyWithInvalidEntries: !onlyWithInvalidEntries})} />
         </label>
       </div>
       <div>

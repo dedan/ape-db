@@ -42,8 +42,9 @@ export function validateEntries() {
     Object.keys(entries).forEach(entryId => {
       const entry = entries[entryId]
       const schema = schemata[entry.form]
+      const entryData = fs.readJsonSync(entry.path)
       try {
-        var valid = ajv.validate(schema, entry);
+        var valid = ajv.validate(schema, entryData);
         entries[entryId] = {
           ...entry,
           isValidated: true,
