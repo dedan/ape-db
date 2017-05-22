@@ -21,8 +21,8 @@ class DetailsPage extends Component {
   }
 
   handleFormSubmit = ({schema, formData}) => {
-    // TODO: Store form at basePath/book/page/entryNumber_formCode.json
-    console.log('>>a', schema, formData)
+    const {currentEntry} = this.state
+    fs.writeJsonSync(currentEntry.path, formData)
   }
 
   handleEntryClick = entryId => {
