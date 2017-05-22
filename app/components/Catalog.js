@@ -87,11 +87,14 @@ class Catalog extends Component {
                     const color = entry.isValidated ?
                       entry.isValid ? green300 : red300
                       : null
-                    return <Chip
-                        backgroundColor={color}
-                        key={i} style={{margin: 4}}>
-                      {entry.form}
-                    </Chip>
+                    const entryUrl = `/current-page/${page.book}/${page.page}/${entryId}`
+                    return <Link to={entryUrl} key={i}>
+                      <Chip
+                          backgroundColor={color}
+                          style={{margin: 4}}>
+                        {entry.form}
+                      </Chip>
+                    </Link>
                   })}
                 </div>
               </TableRowColumn>

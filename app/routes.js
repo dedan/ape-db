@@ -11,6 +11,7 @@ export default () => (
   <Router>
     <App>
       <Switch>
+        <Route path="/current-page/:book/:page/:entryId" component={DetailsPage} />
         <Route path="/current-page/:book/:page" component={DetailsPage} />
         <Route path="/counter" component={CounterPage} />
         <Route path="/" component={HomePage} />

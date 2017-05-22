@@ -16,24 +16,33 @@ import {getSchema} from '../store/schema'
 class DetailsPage extends Component {
 
   state = {
-    currentEntry: null,
     currentEntryData: null,
   }
 
   handleFormSubmit = ({schema, formData}) => {
-    const {currentEntry} = this.state
+    const {currentEntry} = this.props
     fs.writeJsonSync(currentEntry.path, formData)
   }
 
-  handleEntryClick = entryId => {
-    const currentEntry = this.props.pageEntries[entryId]
+  componentWillReceiveProps(nextProps, oldProps) {
+    if (nextProps.currentEntry === oldProps.currentEntry) {
+      return
+    }
+    this.loadFormData(nextProps.currentEntry)
+  }
+
+  componentWillMount(props) {
+    this.loadFormData(this.props.currentEntry)
+  }
+
+  loadFormData = currentEntry => {
     const currentEntryData = fs.readJsonSync(currentEntry.path)
     const schema = getSchema(currentEntry.form)
-    this.setState({currentEntry, currentEntryData, schema})
+    this.setState({currentEntryData, schema})
   }
 
   render() {
-    const {basePath, currentPage, pageEntries} = this.props
+    const {basePath, currentEntry, currentPage, pageEntries, book, page} = this.props
     const {currentEntryData, schema} = this.state
     const imagePath = [basePath, currentPage]
     return (
@@ -52,17 +61,19 @@ class DetailsPage extends Component {
         <div style={{display: 'flex'}}>
           <List style={{width: 300}}>
             {_.map(pageEntries, entry => {
-              return <ListItem
-                  onClick={() => this.handleEntryClick(entry.entryId)}
-                  key={entry.entryId}
-                  primaryText={entry.entryNumber} />
+              const url = `/current-page/${book}/${page}/${entry.entryId}`
+              return <Link to={url} key={entry.entryId}>
+                <ListItem primaryText={entry.entryNumber} />
+              </Link>
             })}
           </List>
-          {currentEntryData ?
-            <Form
-                schema={schema}
-                formData={currentEntryData}
-                onSubmit={this.handleFormSubmit} />
+          {currentEntryData ? <div>
+              {currentEntry.entryId}
+              <Form
+                  schema={schema}
+                  formData={currentEntryData}
+                  onSubmit={this.handleFormSubmit} />
+            </div>
             : null}
         </div>
       </div>
@@ -88,16 +99,19 @@ class NewEntryDialog extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const {book, page} = ownProps.match.params
+  const {book, page, entryId} = ownProps.match.params
   const {books, entries} = state.catalog
   const currentPage = books[book][page]
+  const currentEntry = entries[entryId]
   const pageEntries = _.pick(entries, currentPage.entries)
   return {
     currentPage,
+    currentEntry,
     pageEntries,
     basePath: state.settings.path,
     book,
     page,
+    entryId,
   }
 }
 
