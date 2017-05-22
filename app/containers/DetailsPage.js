@@ -38,13 +38,12 @@ class DetailsPage extends Component {
 
   loadFormData = currentEntry => {
     const currentEntryData = fs.readJsonSync(currentEntry.path)
-    const schema = getSchema(currentEntry.form)
-    this.setState({currentEntryData, schema})
+    this.setState({currentEntryData})
   }
 
   render() {
     const {basePath, currentEntry, currentPage, pageEntries, book, page} = this.props
-    const {currentEntryData, schema} = this.state
+    const {currentEntryData} = this.state
     const imagePath = [basePath, currentPage]
     return (
       <div>
@@ -68,23 +67,43 @@ class DetailsPage extends Component {
               </Link>
             })}
           </List>
-          {currentEntryData && currentEntry ? <div>
-              {currentEntry.entryId}
-              <Form
-                  schema={schema}
-                  formData={currentEntryData}
-                  onSubmit={this.handleFormSubmit} />
-            </div>
-            : null}
+          <div style={{paddingRight: 50}}>
+            <EntryForm
+                currentEntry={currentEntry}
+                currentEntryData={currentEntryData} />
+          </div>
         </div>
       </div>
     );
   }
 }
 
-class FormComponent extends Component {
+class EntryForm extends Component {
 
-
+  render() {
+    const {currentEntry, currentEntryData} = this.props
+    const schema = getSchema(currentEntry.form)
+    if (!currentEntry && currentEntryData) {
+      return
+    }
+    const uiSchema = {}
+    schema && _.each(schema.properties, (ref, key) => {
+      const splitRef = ref['$ref'].split('/')
+      const def = schema.definitions[splitRef.pop()]
+      const shouldBeRadio = def.enum && def.enum.length < 4
+      if (shouldBeRadio) {
+        uiSchema[key] = {"ui:widget": "radio"}
+      }
+    })
+    return <div>
+      {currentEntry.entryId}
+      <Form
+          uiSchema={uiSchema}
+          schema={schema}
+          formData={currentEntryData}
+          onSubmit={this.handleFormSubmit} />
+    </div>
+  }
 }
 
 class NewEntryDialog extends Component {
