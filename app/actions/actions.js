@@ -4,8 +4,8 @@ import path from 'path'
 var Ajv = require('ajv');
 var ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
 import fs from 'fs-extra'
-import {getAllPages} from '../selectors/catalog'
 import {getSchema} from '../store/schema'
+
 
 export const SET_SETTINGS = 'SET_SETTINGS'
 export const INVALID_BOOK_ERROR = 'INVALID_BOOK_ERROR'
@@ -22,7 +22,6 @@ const BOOK_REG = /\w{2}\.\w+\.[MF]\.\d\.\d{4}/
 const PAGE_REG = /p\d{3}/
 const ORIGINAL_REG = /\w{2}\.\w+\.[MF]\.\d\.\d{4}_p\d{3}.jpg/
 const THUMBNAIL_REG = /\w{2}\.\w+\.[MF]\.\d\.\d{4}_p\d{3}_thumbnail.jpg/
-
 
 export function setSettings(settings) {
   storage.set('settings', settings, function(error) {
@@ -78,7 +77,7 @@ export function loadCatalog(basePath) {
       }
       const currentBook = books[file.book]
       if (!currentBook[file.page]) {
-        currentBook[file.page] = {entries: []}
+        currentBook[file.page] = {entries: [], pageId: file.page}
       }
       const currentPage = currentBook[file.page]
 

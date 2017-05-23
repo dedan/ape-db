@@ -14,7 +14,6 @@ storage.get('settings', function(error, data) {
   if (error) throw error;
 
   const initialState = {
-    counter: 0,
     settings: Object.keys(data).length ? data : settingsInitialState,
   }
 

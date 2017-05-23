@@ -70,8 +70,7 @@ class Catalog extends Component {
         <TableBody displayRowCheckbox={false}>
           {filteredPages.map(page => {
             const filePath = 'file://' + page.thumbnail
-            const key = [page.book, page.page].join('-')
-            return <TableRow key={key}>
+            return <TableRow key={page.pageId}>
               <TableRowColumn>
                 {page.original ? <img src={filePath} width="100" height="100" /> : null}
               </TableRowColumn>
