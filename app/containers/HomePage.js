@@ -49,7 +49,7 @@ class HomePage extends Component {
                 onItemClick={actions.selectBook}
                 selectedBookId={selectedBookId} />
           </div>
-          <Catalog allPages={bookPages} entries={entries} />
+          <Catalog bookId={selectedBookId} allPages={bookPages} entries={entries} />
         </div>
         <FileAdder
             basePath={settings.path}

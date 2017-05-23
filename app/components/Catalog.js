@@ -21,7 +21,7 @@ class Catalog extends Component {
   }
 
   render() {
-    const {allPages, entries, dispatch} = this.props
+    const {bookId, allPages, entries, dispatch} = this.props
     const {onlyWithEntries, onlyWithInvalidEntries} = this.state
 
     // TODO: Move filtering to reducer and selector to have it non blocking.
@@ -54,10 +54,8 @@ class Catalog extends Component {
       <Table>
         <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
           <TableRow>
-            <TableHeaderColumn>Image</TableHeaderColumn>
-            <TableHeaderColumn>Book</TableHeaderColumn>
-            <TableHeaderColumn>Page</TableHeaderColumn>
-            <TableHeaderColumn>Link</TableHeaderColumn>
+            <TableHeaderColumn style={{width: 100}}>Image</TableHeaderColumn>
+            <TableHeaderColumn style={{width: 100}}>Page</TableHeaderColumn>
             <TableHeaderColumn>Entries</TableHeaderColumn>
           </TableRow>
         </TableHeader>
@@ -65,13 +63,11 @@ class Catalog extends Component {
           {filteredPages.map(page => {
             const filePath = 'file://' + page.thumbnail
             return <TableRow key={page.pageId}>
-              <TableRowColumn>
+              <TableRowColumn style={{width: 100}}>
                 {page.original ? <img src={filePath} width="100" height="100" /> : null}
               </TableRowColumn>
-              <TableRowColumn>{page.book}</TableRowColumn>
-              <TableRowColumn>{page.page}</TableRowColumn>
-              <TableRowColumn>
-                <Link to={`/current-page/${page.book}/${page.page}`}>Edit</Link>
+              <TableRowColumn style={{width: 100}}>
+                <Link to={`/current-page/${bookId}/${page.pageId}`}>{page.pageId}</Link>
               </TableRowColumn>
               <TableRowColumn>
                 <div style={{display: 'flex', flexWrap: 'wrap'}}>
@@ -80,7 +76,7 @@ class Catalog extends Component {
                     const color = entry.isValidated ?
                       entry.isValid ? green300 : red300
                       : null
-                    const entryUrl = `/current-page/${page.book}/${page.page}/${entryId}`
+                    const entryUrl = `/current-page/${bookId}/${page.pageId}/${entryId}`
                     return <Link to={entryUrl} key={i}>
                       <Chip
                           backgroundColor={color}

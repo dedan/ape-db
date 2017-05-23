@@ -82,10 +82,10 @@ class EntryForm extends Component {
 
   render() {
     const {currentEntry, currentEntryData} = this.props
-    const schema = getSchema(currentEntry.form)
-    if (!currentEntry && currentEntryData) {
-      return
+    if (!currentEntry || !currentEntryData) {
+      return <div>select an entry</div>
     }
+    const schema = getSchema(currentEntry.form)
     const uiSchema = {}
     schema && _.each(schema.properties, (ref, key) => {
       const splitRef = ref['$ref'].split('/')
