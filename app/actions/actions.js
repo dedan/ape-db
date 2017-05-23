@@ -5,6 +5,7 @@ var Ajv = require('ajv');
 var ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
 import fs from 'fs-extra'
 import {getAllPages} from '../selectors/catalog'
+import {getSchema} from '../store/schema'
 
 export const SET_SETTINGS = 'SET_SETTINGS'
 export const INVALID_BOOK_ERROR = 'INVALID_BOOK_ERROR'
@@ -38,10 +39,9 @@ export function validateEntries() {
   return (dispatch, getState) => {
     dispatch({type: START_ENTRIES_VALIDATION})
     const entries = getState().catalog.entries
-    const schemata = getAllSchemata()
     Object.keys(entries).forEach(entryId => {
       const entry = entries[entryId]
-      const schema = schemata[entry.form]
+      const schema = getSchema(entry.form)
       const entryData = fs.readJsonSync(entry.path)
       try {
         var valid = ajv.validate(schema, entryData);
@@ -53,26 +53,12 @@ export function validateEntries() {
         }
       }
       catch (e) {
+        console.log('>>', e)
       }
     })
     dispatch({type: UPDATE_ALL_ENTRIES, entries})
   }
 }
-
-function getAllSchemata() {
-  const FORMS_PATH = '/Users/dedan/projects/monkey-db/test/test-forms/'
-  const formFiles = fs.readdirSync(FORMS_PATH)
-  const res = {}
-  formFiles.forEach(formFile => {
-    if (!formFile.endsWith('.json')) {
-      return
-    }
-    const formName = path.basename(formFile, '.json')
-    res[formName] = fs.readJsonSync([FORMS_PATH, formFile].join(path.sep))
-  })
-  return res
-}
-
 
 export function loadCatalog(basePath) {
   return dispatch => {
