@@ -9,6 +9,8 @@ import {getSchema} from '../store/schema'
 import {List, ListItem} from 'material-ui/List';
 import * as appActions from '../actions/app'
 import _ from 'underscore'
+import PropTypes from 'prop-types';
+import {grey300} from 'material-ui/styles/colors';
 
 class HomePage extends Component {
 
@@ -22,7 +24,7 @@ class HomePage extends Component {
   }
 
   render() {
-    const {actions, bookPages, books, entries, settings} = this.props
+    const {actions, bookPages, books, entries, selectedBookId, settings} = this.props
     const headerStyle = {
       display: 'flex',
       justifyContent: 'space-between',
@@ -40,7 +42,10 @@ class HomePage extends Component {
           <BookIndexValidation />
         </div>
         <div style={{display: 'flex'}}>
-          <BookList books={books} onItemClick={actions.selectBook} />
+          <BookList
+              books={books}
+              onItemClick={actions.selectBook}
+              selectedBookId={selectedBookId} />
           <Catalog allPages={bookPages} entries={entries} />
         </div>
         <FileAdder
@@ -69,13 +74,16 @@ class BookIndexValidation extends Component {
   }
 }
 
-const BookList = ({books, onItemClick}) => (
+const BookList = ({books, onItemClick, selectedBookId}) => (
   <List>
-    {Object.keys(books).map(bookId => {
+    {_.map(books, (book, bookId) => {
+      const backgroundColor = selectedBookId === bookId ? grey300 : null
       return <ListItem
         key={bookId}
+        style={{backgroundColor}}
         onClick={() => onItemClick(bookId)}
-        primaryText={bookId} />
+        primaryText={bookId}
+        secondaryText={`${Object.keys(book).length} pages`} />
     })}
   </List>
 )
@@ -83,9 +91,10 @@ const BookList = ({books, onItemClick}) => (
 
 function mapStateToProps(state) {
   const {settings} = state
+  const {selectedBookId} = state.app
   const {books, entries} = state.catalog
-  const bookPages = _.values(books[state.app.selectedBookId])
-  return {books, bookPages, entries, settings}
+  const bookPages = _.values(books[selectedBookId])
+  return {books, bookPages, entries, selectedBookId, settings}
 }
 
 function mapDispatchToProps(dispatch) {
