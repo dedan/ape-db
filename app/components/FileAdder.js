@@ -48,7 +48,13 @@ export default class FileAdder extends Component {
   }
 
   render() {
-    return <div>
+    const style = {
+      position: 'fixed',
+      bottom: 20,
+      right: 20,
+      zIndex: 2,
+    }
+    return <div style={style}>
       <FloatingActionButton onClick={this.handleOpenFileClick}>
         <ContentAdd />
       </FloatingActionButton>
