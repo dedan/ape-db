@@ -10,47 +10,13 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 import Chip from 'material-ui/Chip';
-import {connect} from 'react-redux'
 import {green300, red300} from 'material-ui/styles/colors';
 
-class Catalog extends Component {
-
-  state = {
-    onlyWithEntries: true,
-    onlyWithInvalidEntries: false,
-  }
+export default class Catalog extends Component {
 
   render() {
-    const {bookId, allPages, entries, dispatch} = this.props
-    const {onlyWithEntries, onlyWithInvalidEntries} = this.state
-
-    // TODO: Move filtering to reducer and selector to have it non blocking.
-    const filteredPages = allPages.filter(page => {
-      return !onlyWithEntries || page.entries.length &&
-        !onlyWithInvalidEntries || page.entries.some(entryId => {
-          const entry = entries[entryId]
-          return entry.isValidated && !entry.isValid
-        })
-    })
-
+    const {bookId, bookPages, entries, dispatch} = this.props
     return <div>
-      <div>
-        <h2>Filters</h2>
-        <label>
-          only with entries
-          <input
-              type="checkbox"
-              checked={onlyWithEntries}
-              onChange={() => this.setState({onlyWithEntries: !onlyWithEntries})} />
-        </label>
-        <label>
-          only with invalid entries
-          <input
-              type="checkbox"
-              checked={onlyWithInvalidEntries}
-              onChange={() => this.setState({onlyWithInvalidEntries: !onlyWithInvalidEntries})} />
-        </label>
-      </div>
       <Table>
         <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
           <TableRow>
@@ -60,7 +26,7 @@ class Catalog extends Component {
           </TableRow>
         </TableHeader>
         <TableBody displayRowCheckbox={false}>
-          {filteredPages.map(page => {
+          {bookPages.map(page => {
             const filePath = 'file://' + page.thumbnail
             return <TableRow key={page.pageId}>
               <TableRowColumn style={{width: 100}}>
@@ -96,5 +62,3 @@ class Catalog extends Component {
     </div>
   }
 }
-
-export default connect()(Catalog)

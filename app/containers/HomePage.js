@@ -8,6 +8,7 @@ import {addFile, validateEntries} from '../actions/actions'
 import {getSchema} from '../store/schema'
 import {List, ListItem} from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import * as appActions from '../actions/app'
 import _ from 'underscore'
 import PropTypes from 'prop-types';
@@ -30,7 +31,7 @@ class HomePage extends Component {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      height: 100,
+      height: 200,
       padding: 20,
     }
     return (
@@ -39,7 +40,9 @@ class HomePage extends Component {
           <div>
             <h2>{Object.keys(books).length} Books</h2>
           </div>
-          <BookIndexFilter />
+          <BookIndexFilter
+              selectedBookId={selectedBookId}
+              onWithEntryFilterClick={actions.setWithEntryFilter} />
           <BookIndexValidation onValidateClick={actions.validateEntries} />
         </div>
         <div style={{display: 'flex'}}>
@@ -49,7 +52,7 @@ class HomePage extends Component {
                 onItemClick={actions.selectBook}
                 selectedBookId={selectedBookId} />
           </div>
-          <Catalog bookId={selectedBookId} allPages={bookPages} entries={entries} />
+          <Catalog bookId={selectedBookId} bookPages={bookPages} entries={entries} />
         </div>
         <FileAdder
             basePath={settings.path}
@@ -59,14 +62,30 @@ class HomePage extends Component {
   }
 }
 
-class BookIndexFilter extends Component {
+const BookIndexFilter = ({onWithEntryFilterClick, selectedBookId}) => (
+  <div style={{width: 300}}>
+    <div>
+      <RadioButtonGroup
+          name="entryFilter"
+          onChange={(e, value) => onWithEntryFilterClick(value)}
+          defaultSelected="off">
+        <RadioButton
+            disabled={!selectedBookId}
+            value="with" label="With entries"
+            style={{marginBottom: 12}} />
+        <RadioButton
+            disabled={!selectedBookId}
+            value="without" label="No entries"
+            style={{marginBottom: 12}} />
+        <RadioButton
+            disabled={!selectedBookId}
+            value="off" label="Off"
+            style={{marginBottom: 12}} />
+      </RadioButtonGroup>
+    </div>
+  </div>
+)
 
-  render() {
-    return (
-      <div>Index Filter</div>
-    )
-  }
-}
 
 const BookIndexValidation = ({onValidateClick}) => (
   <div>
@@ -76,6 +95,7 @@ const BookIndexValidation = ({onValidateClick}) => (
         onClick={onValidateClick} />
   </div>
 )
+
 
 
 const BookList = ({books, onItemClick, selectedBookId}) => (
@@ -95,9 +115,24 @@ const BookList = ({books, onItemClick, selectedBookId}) => (
 
 function mapStateToProps(state) {
   const {settings} = state
-  const {selectedBookId} = state.app
+  const {selectedBookId, withEntryFilterValue} = state.app
   const {books, entries} = state.catalog
-  const bookPages = _.values(books[selectedBookId])
+
+  const bookPages = _.values(books[selectedBookId]).filter(page => {
+
+    let withEntryFilter
+    if (withEntryFilterValue === 'with') {
+      withEntryFilter = page.entries.length
+    } else if (withEntryFilterValue === 'without') {
+      withEntryFilter = !page.entries.length
+    } else if (withEntryFilterValue === 'off') {
+      withEntryFilter = true
+    } else {
+      throw 'Invalid value'
+    }
+
+    return withEntryFilter
+  })
   return {books, bookPages, entries, selectedBookId, settings}
 }
 
