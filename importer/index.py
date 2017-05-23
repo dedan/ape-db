@@ -3,7 +3,6 @@ import json
 
 
 def get_index_from_sheet(sheet):
-    index = all_sheets['INDEX']
     cols_to_use = [
         'Data variable as written on entry form',
         'Excel column header',
@@ -15,12 +14,13 @@ def get_index_from_sheet(sheet):
     def joiner(row):
         bla = [s for s in row if isinstance(s, str) and s]
         return ' - '.join(bla) if bla else row.iloc[0]
-    index['Data variable as written on entry form'] = index[cols_to_join].apply(joiner, axis=1)
+    sheet['Data variable as written on entry form'] = sheet[cols_to_join].apply(joiner, axis=1)
 
-    index = index[cols_to_use].reset_index()
-    index.columns = ['group', 'form_variable', 'variable', 'form_value', 'value', 'used_on']
-    index.fillna(method='pad', inplace=True)
-    return index
+    sheet = sheet[cols_to_use].reset_index()
+    sheet.columns = ['group', 'form_variable', 'variable', 'form_value', 'value', 'used_on']
+    sheet.fillna(method='pad', inplace=True)
+    sheet.drop_duplicates(subset=['variable', 'form_value', 'value'], inplace=True)
+    return sheet
 
 
 def get_definitions_from_index(index):
