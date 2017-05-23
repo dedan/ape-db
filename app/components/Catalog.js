@@ -11,7 +11,6 @@ import {
 } from 'material-ui/Table';
 import Chip from 'material-ui/Chip';
 import {connect} from 'react-redux'
-import {validateEntries} from '../actions/actions'
 import {green300, red300} from 'material-ui/styles/colors';
 
 class Catalog extends Component {
@@ -35,7 +34,6 @@ class Catalog extends Component {
     })
 
     return <div>
-      <h1>Catalog</h1>
       <div>
         <h2>Filters</h2>
         <label>
@@ -52,10 +50,6 @@ class Catalog extends Component {
               checked={onlyWithInvalidEntries}
               onChange={() => this.setState({onlyWithInvalidEntries: !onlyWithInvalidEntries})} />
         </label>
-      </div>
-      <div>
-        <h2>Validation</h2>
-        <button onClick={() => dispatch(validateEntries())}>validate entries</button>
       </div>
       <Table>
         <TableHeader displaySelectAll={false} adjustForCheckbox={false}>

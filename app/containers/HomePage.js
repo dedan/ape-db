@@ -4,9 +4,10 @@ import {bindActionCreators} from 'redux'
 import path from 'path'
 import Catalog from '../components/Catalog';
 import FileAdder from '../components/FileAdder';
-import {addFile} from '../actions/actions'
+import {addFile, validateEntries} from '../actions/actions'
 import {getSchema} from '../store/schema'
 import {List, ListItem} from 'material-ui/List';
+import RaisedButton from 'material-ui/RaisedButton';
 import * as appActions from '../actions/app'
 import _ from 'underscore'
 import PropTypes from 'prop-types';
@@ -39,13 +40,15 @@ class HomePage extends Component {
             <h2>{Object.keys(books).length} Books</h2>
           </div>
           <BookIndexFilter />
-          <BookIndexValidation />
+          <BookIndexValidation onValidateClick={actions.validateEntries} />
         </div>
         <div style={{display: 'flex'}}>
-          <BookList
-              books={books}
-              onItemClick={actions.selectBook}
-              selectedBookId={selectedBookId} />
+          <div style={{paddingRight: 20}}>
+            <BookList
+                books={books}
+                onItemClick={actions.selectBook}
+                selectedBookId={selectedBookId} />
+          </div>
           <Catalog allPages={bookPages} entries={entries} />
         </div>
         <FileAdder
@@ -65,14 +68,15 @@ class BookIndexFilter extends Component {
   }
 }
 
-class BookIndexValidation extends Component {
+const BookIndexValidation = ({onValidateClick}) => (
+  <div>
+    <RaisedButton
+        label="validate entries"
+        style={{margin: 12}}
+        onClick={onValidateClick} />
+  </div>
+)
 
-  render() {
-    return (
-      <div>Index Validation</div>
-    )
-  }
-}
 
 const BookList = ({books, onItemClick, selectedBookId}) => (
   <List>
@@ -99,7 +103,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(appActions, dispatch)
+    actions: bindActionCreators({...appActions, validateEntries}, dispatch)
   }
 }
 
