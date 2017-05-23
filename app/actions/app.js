@@ -17,3 +17,10 @@ export function setWithEntryFilter(value) {
   }
   return {type: SET_WITH_ENTRY_FILTER, value}
 }
+
+export function setEntryValidityFilter(value) {
+  if (!['valid', 'invalid', 'off'].includes(value)) {
+    throw 'Invalid filter value'
+  }
+  return {type: SET_ENTRY_VALIDITY_FILTER, value}
+}

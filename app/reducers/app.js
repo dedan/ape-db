@@ -1,7 +1,8 @@
-import {SELECT_BOOK, SET_WITH_ENTRY_FILTER} from '../actions/app'
+import {SELECT_BOOK, SET_WITH_ENTRY_FILTER, SET_ENTRY_VALIDITY_FILTER} from '../actions/app'
 
 const initialState = {
   withEntryFilterValue: 'off',
+  entryValidityFilterValue: 'off',
 }
 
 export default function app (state=initialState, action) {
@@ -15,6 +16,11 @@ export default function app (state=initialState, action) {
       return {
         ...state,
         withEntryFilterValue: action.value
+      }
+    case SET_ENTRY_VALIDITY_FILTER:
+      return {
+        ...state,
+        entryValidityFilterValue: action.value
       }
     default:
       return state

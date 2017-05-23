@@ -42,7 +42,8 @@ class HomePage extends Component {
           </div>
           <BookIndexFilter
               selectedBookId={selectedBookId}
-              onWithEntryFilterClick={actions.setWithEntryFilter} />
+              onWithEntryFilterClick={actions.setWithEntryFilter}
+              onEntryValidityFilterClick={actions.setEntryValidityFilter} />
           <BookIndexValidation onValidateClick={actions.validateEntries} />
         </div>
         <div style={{display: 'flex'}}>
@@ -62,28 +63,33 @@ class HomePage extends Component {
   }
 }
 
-const BookIndexFilter = ({onWithEntryFilterClick, selectedBookId}) => (
-  <div style={{width: 300}}>
-    <div>
-      <RadioButtonGroup
-          name="entryFilter"
-          onChange={(e, value) => onWithEntryFilterClick(value)}
-          defaultSelected="off">
-        <RadioButton
-            disabled={!selectedBookId}
-            value="with" label="With entries"
-            style={{marginBottom: 12}} />
-        <RadioButton
-            disabled={!selectedBookId}
-            value="without" label="No entries"
-            style={{marginBottom: 12}} />
-        <RadioButton
-            disabled={!selectedBookId}
-            value="off" label="Off"
-            style={{marginBottom: 12}} />
-      </RadioButtonGroup>
-    </div>
+const BookIndexFilter = ({onWithEntryFilterClick, onEntryValidityFilterClick, selectedBookId}) => (
+  <div style={{display: 'flex', width: 400}}>
+    <FilterRadioGroup
+        disabled={!selectedBookId}
+        onChange={onWithEntryFilterClick}
+        values={['off', 'with', 'without']}
+        labels={['Off', 'No entries', 'With entries']} />
+    <FilterRadioGroup
+        disabled={!selectedBookId}
+        onChange={onEntryValidityFilterClick}
+        values={['off', 'valid', 'invalid']}
+        labels={['Off', 'With valid entries', 'With invalid entries']} />
   </div>
+)
+
+const FilterRadioGroup = ({values, labels, onChange, disabled}) => (
+  <RadioButtonGroup style={{flex: 1}}
+      name={values[0]}
+      onChange={(e, value) => onChange(value)}
+      defaultSelected={values[0]}>
+    {values.map((value, i) => {
+      return <RadioButton
+          disabled={disabled}
+          value={value} label={labels[i]}
+          style={{marginBottom: 12}} />
+    })}
+  </RadioButtonGroup>
 )
 
 
@@ -115,7 +121,7 @@ const BookList = ({books, onItemClick, selectedBookId}) => (
 
 function mapStateToProps(state) {
   const {settings} = state
-  const {selectedBookId, withEntryFilterValue} = state.app
+  const {selectedBookId, withEntryFilterValue, entryValidityFilterValue} = state.app
   const {books, entries} = state.catalog
 
   const bookPages = _.values(books[selectedBookId]).filter(page => {
@@ -131,7 +137,24 @@ function mapStateToProps(state) {
       throw 'Invalid value'
     }
 
-    return withEntryFilter
+    let entryValidityFilter
+    if (entryValidityFilterValue === 'valid') {
+      entryValidityFilter = page.entries.some(entryId => {
+        const entry = entries[entryId]
+        return entry.isValidated && entry.isValid
+      })
+    } else if (entryValidityFilterValue === 'invalid') {
+      entryValidityFilter = page.entries.some(entryId => {
+        const entry = entries[entryId]
+        return entry.isValidated && !entry.isValid
+      })
+    } else if (entryValidityFilterValue === 'off') {
+      entryValidityFilter = true
+    } else {
+      throw 'Invalid value'
+    }
+
+    return withEntryFilter && entryValidityFilter
   })
   return {books, bookPages, entries, selectedBookId, settings}
 }
