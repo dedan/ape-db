@@ -97,7 +97,9 @@ export function loadCatalog(basePath) {
           const entryId = file.fileName.slice(0, -5)
           const [entryNumber, form] = entryId.split('_')
           currentPage.entries.push(entryId)
+          const entry = fs.readJsonSync(pathStats.path)
           entries[entryId] = {
+            isPlaceholder: entry.isPlaceholder,
             path: pathStats.path,
             entryNumber,
             form,

@@ -10,7 +10,7 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 import Chip from 'material-ui/Chip';
-import {green300, red300} from 'material-ui/styles/colors';
+import {green300, red300, blue300} from 'material-ui/styles/colors';
 
 export default class Catalog extends Component {
 
@@ -39,9 +39,11 @@ export default class Catalog extends Component {
                 <div style={{display: 'flex', flexWrap: 'wrap'}}>
                   {page.entries.map((entryId, i) => {
                     const entry = entries[entryId]
-                    const color = entry.isValidated ?
-                      entry.isValid ? green300 : red300
-                      : null
+                    const color = entry.isPlaceholder ?
+                      blue300
+                      : entry.isValidated ?
+                        entry.isValid ? green300 : red300
+                        : null
                     const entryUrl = `/current-page/${bookId}/${page.pageId}/${entryId}`
                     return <Link to={entryUrl} key={i}>
                       <Chip

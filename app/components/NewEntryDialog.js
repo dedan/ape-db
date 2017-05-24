@@ -35,7 +35,7 @@ export class NewEntryDialog extends Component {
     const entryId = validEntryNumber + '_' + entryForm
     const entryPath = [basePath, book, page, entryId].join(path.sep) + '.json'
     const emptyForm = {
-      placeholder: true,
+      isPlaceholder: true,
       entryCreator,
       entryLanguage,
       entryCreationDate: new Date(),
@@ -48,6 +48,7 @@ export class NewEntryDialog extends Component {
       path: entryPath,
       form: entryForm,
       entryNumber: validEntryNumber,
+      isPlaceholder: true,
       entryId
     }
     onNewEntryCreated && onNewEntryCreated(newEntry)
