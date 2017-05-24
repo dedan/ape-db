@@ -17,3 +17,18 @@ export function getSchema(form) {
   }
   return cache[form]
 }
+
+export function getFormNames() {
+  if (!cache.formNames) {
+    const formFileNames = fs.readdirSync(FORMS_PATH)
+    const formNames = formFileNames.
+      map(formFileName => {
+        return path.basename(formFileName, '.json')
+      }).
+      filter(formName => {
+        return !['.DS_Store', 'definitions'].includes(formName)
+      })
+    cache.formNames = formNames
+  }
+  return cache.formNames
+}

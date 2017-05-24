@@ -59,6 +59,10 @@ export function validateEntries() {
   }
 }
 
+export function addNewEntry(book, page, entry) {
+  return {type: ADD_ENTRY, book, page, entry}
+}
+
 export function loadCatalog(basePath) {
   return dispatch => {
     let books = {}

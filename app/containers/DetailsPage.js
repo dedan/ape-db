@@ -11,6 +11,9 @@ import TextField from 'material-ui/TextField';
 import {List, ListItem} from 'material-ui/List';
 import _ from 'underscore'
 import {EntryForm} from '../components/EntryForm'
+import {NewEntryDialog} from '../components/NewEntryDialog'
+import {addNewEntry} from '../actions/actions'
+
 
 class DetailsPage extends Component {
 
@@ -41,7 +44,7 @@ class DetailsPage extends Component {
   }
 
   render() {
-    const {basePath, currentEntry, currentPage, pageEntries, book, page} = this.props
+    const {basePath, currentEntry, currentPage, dispatch, pageEntries, book, page} = this.props
     const {currentEntryData} = this.state
     const imagePath = [basePath, currentPage]
     return (
@@ -73,23 +76,14 @@ class DetailsPage extends Component {
                 onSubmit={this.handleFormSubmit} />
           </div>
         </div>
+        <NewEntryDialog
+            basePath={basePath} book={book} page={page}
+            onNewEntryCreated={entry => dispatch(addNewEntry(book, page, entry))} />
       </div>
     );
   }
 }
 
-
-class NewEntryDialog extends Component {
-
-  render() {
-    const {isOpen} = this.props
-    return (
-      <Dialog title="New Entry" modal={true} open={isOpen}>
-      </Dialog>
-    );
-
-  }
-}
 
 function mapStateToProps(state, ownProps) {
   const {book, page, entryId} = ownProps.match.params

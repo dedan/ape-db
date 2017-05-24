@@ -14,6 +14,26 @@ export default function catalog(state = initialState, action) {
         books: state.books,
         entries: action.entries
       }
+    case ADD_ENTRY:
+      return {
+        books: {
+          ...state.books,
+          [action.book]: {
+            ...state.books[action.book],
+            [action.page]: {
+              ...state.books[action.book][action.page],
+              entries: [
+                ...state.books[action.book][action.page].entries,
+                action.entry.entryId,
+              ]
+            }
+          }
+        },
+        entries: {
+          ...state.entries,
+          [action.entry.entryId]: action.entry
+        }
+      }
     default:
       return state;
   }
