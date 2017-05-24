@@ -28,11 +28,21 @@ class HomePage extends Component {
   render() {
     const {actions, bookPages, books, entries, selectedBookId, settings} = this.props
     const headerStyle = {
+      position: 'absolute',
+      top: 0,
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
       height: 200,
       padding: 20,
+    }
+    const mainStyle = {
+      top: 200,
+      bottom: 0,
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      display: 'flex',
     }
     return (
       <div>
@@ -46,14 +56,16 @@ class HomePage extends Component {
               onEntryValidityFilterClick={actions.setEntryValidityFilter} />
           <BookIndexValidation onValidateClick={actions.validateEntries} />
         </div>
-        <div style={{display: 'flex'}}>
-          <div style={{paddingRight: 20}}>
+        <div style={mainStyle}>
+          <div style={{paddingRight: 20, overflowY: 'scroll'}}>
             <BookList
                 books={books}
                 onItemClick={actions.selectBook}
                 selectedBookId={selectedBookId} />
           </div>
-          <Catalog bookId={selectedBookId} bookPages={bookPages} entries={entries} />
+          <div style={{overflowY: 'scroll', flex: 1}}>
+            <Catalog bookId={selectedBookId} bookPages={bookPages} entries={entries} />
+          </div>
         </div>
         <FileAdder
             basePath={settings.path}

@@ -13,7 +13,7 @@ import _ from 'underscore'
 import {EntryForm} from '../components/EntryForm'
 import {NewEntryDialog} from '../components/NewEntryDialog'
 import {addNewEntry} from '../actions/actions'
-
+import {grey300} from 'material-ui/styles/colors';
 
 class DetailsPage extends Component {
 
@@ -47,29 +47,45 @@ class DetailsPage extends Component {
     const {basePath, currentEntry, currentPage, dispatch, pageEntries, book, page} = this.props
     const {currentEntryData} = this.state
     const imagePath = [basePath, currentPage]
+    const headerStyle = {
+      position: 'absolute',
+      top: 0,
+      height: 500,
+    }
+    const mainStyle = {
+      top: 500,
+      bottom: 0,
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      display: 'flex',
+    }
     return (
       <div>
-        <h1>The details</h1>
-        <Link to="/">
-          <i className="fa fa-arrow-left fa-3x" />
-        </Link>
-        <div style={{height: 400}}>
+        <div style={headerStyle}>
+          <Link to="/">
+            <i className="fa fa-arrow-left fa-3x" />
+          </Link>
           <ReactImageZoom
               width={400} height={400} zoomWidth={500}
               offset={{vertical: 0, horizontal: 10}}
               img={'file://' + currentPage.original} />
         </div>
-        <br />
-        <div style={{display: 'flex'}}>
-          <List style={{width: 300}}>
-            {_.map(pageEntries, entry => {
-              const url = `/current-page/${book}/${page}/${entry.entryId}`
-              return <Link to={url} key={entry.entryId}>
-                <ListItem primaryText={entry.entryNumber} />
-              </Link>
-            })}
-          </List>
-          <div style={{paddingRight: 50}}>
+        <div style={mainStyle}>
+          <div style={{paddingRight: 20, overflowY: 'scroll'}}>
+            <List>
+              {_.map(pageEntries, entry => {
+                const url = `/current-page/${book}/${page}/${entry.entryId}`
+                const backgroundColor = entry.entryId === currentEntry.entryId ? grey300 : null
+                return <Link to={url} key={entry.entryId}>
+                  <ListItem
+                      style={{backgroundColor}}
+                      primaryText={`${entry.entryNumber} - ${entry.form}`} />
+                </Link>
+              })}
+            </List>
+          </div>
+          <div style={{flex: 1, overflowY: 'scroll'}}>
             <EntryForm
                 currentEntry={currentEntry}
                 currentEntryData={currentEntryData}

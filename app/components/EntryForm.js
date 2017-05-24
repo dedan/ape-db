@@ -118,7 +118,7 @@ class MyForm extends Component {
   render() {
     const {schema} = this.props
     const {errors, localFormData} = this.state
-    return <form style={{paddingLeft: 50, width: 800}}>
+    return <form>
       <h2>{schema.title}</h2>
       {errors ? 'you have errors in your form' : null}
       {_.map(schema.properties, (ref, key) => {
