@@ -18,7 +18,7 @@ class DetailsPage extends Component {
     currentEntryData: null,
   }
 
-  handleFormSubmit = ({schema, formData}) => {
+  handleFormSubmit = ({formData}) => {
     const {currentEntry} = this.props
     fs.writeJsonSync(currentEntry.path, formData)
   }
@@ -69,7 +69,8 @@ class DetailsPage extends Component {
           <div style={{paddingRight: 50}}>
             <EntryForm
                 currentEntry={currentEntry}
-                currentEntryData={currentEntryData} />
+                currentEntryData={currentEntryData}
+                onSubmit={this.handleFormSubmit} />
           </div>
         </div>
       </div>

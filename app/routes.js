@@ -17,3 +17,29 @@ export default () => (
     </App>
   </Router>
 );
+
+import {Component} from 'react'
+import {EntryForm} from 'components/EntryForm'
+import fs from 'fs-extra'
+class FormDebugger extends Component {
+
+  handleFormSubmit = ({schema, formData}) => {
+    // TODO: Store form at basePath/book/page/entryNumber_formCode.json
+    console.log('>>', schema, formData)
+  }
+
+  render() {
+    const currentEntry = {
+      path: "/Users/dedan/projects/monkey-db/test/test-folder/OU.Adul.F.1.1998/p004/E0004_N-AR.json",
+      entryNumber: "E0004",
+      form: "N-AR",
+      entryId: "E0004_N-AR",
+    }
+    const currentEntryData = fs.readJsonSync(currentEntry.path)
+    return <div style={{padding: '0 50px'}}>
+      <EntryForm
+          currentEntry={currentEntry}
+          currentEntryData={currentEntryData} />
+    </div>
+  }
+}
