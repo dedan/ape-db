@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import {connect} from 'react-redux'
 import path from 'path'
 import ReactImageZoom from 'react-image-zoom';
-import Form from "react-jsonschema-form"
 import fs from 'fs-extra'
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -11,7 +10,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import {List, ListItem} from 'material-ui/List';
 import _ from 'underscore'
-import {getSchema} from '../store/schema'
+import {EntryForm} from '../components/EntryForm'
 
 class DetailsPage extends Component {
 
@@ -78,33 +77,6 @@ class DetailsPage extends Component {
   }
 }
 
-class EntryForm extends Component {
-
-  render() {
-    const {currentEntry, currentEntryData} = this.props
-    if (!currentEntry || !currentEntryData) {
-      return <div>select an entry</div>
-    }
-    const schema = getSchema(currentEntry.form)
-    const uiSchema = {}
-    schema && _.each(schema.properties, (ref, key) => {
-      const splitRef = ref['$ref'].split('/')
-      const def = schema.definitions[splitRef.pop()]
-      const shouldBeRadio = def.enum && def.enum.length < 4
-      if (shouldBeRadio) {
-        uiSchema[key] = {"ui:widget": "radio"}
-      }
-    })
-    return <div>
-      {currentEntry.entryId}
-      <Form
-          uiSchema={uiSchema}
-          schema={schema}
-          formData={currentEntryData}
-          onSubmit={this.handleFormSubmit} />
-    </div>
-  }
-}
 
 class NewEntryDialog extends Component {
 
