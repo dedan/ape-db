@@ -65,10 +65,11 @@ def _get_enum_definition(title, form_values, values):
     enum_names = [
         name if name != '[as written]' else values[i]
         for i, name in enumerate(form_values)]
+    enum_type = 'optionalEnum' if '[as written]' in values else 'enum'
     return {
         'title': title,
-        'enum': values,
-        'enumNames': enum_names,
+        enum_type: values,
+        enum_type + 'Names': enum_names,
         'type': 'string',
     }
 

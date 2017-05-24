@@ -29,15 +29,33 @@ function getFieldForDef(def, value, changeHandler) {
     onChange: e => changeHandler(e.target.value),
     value
   }
-  if (def.type === 'string' && !def.format && !def.enum) {
+  if (def.type === 'string' && !def.format && !def.enum && !def.optionalEnum) {
     return <input {...props} type="text" />
   } else if(def.enum) {
-    return <select {...props}>
-      <option />
-      {_.map(def.enum, (val, i) => {
-        return <option key={val} value={val}>{def.enumNames[i]}</option>
+    return <div>
+      <select {...props}>
+        <option />
+        {_.map(def.enum, (val, i) => {
+          return <option key={val} value={val}>{def.enumNames[i]}</option>
+        })}
+      </select>
+    </div>
+  } else if (def.optionalEnum) {
+    return <div>
+      {_.map(def.optionalEnum, (val, i) => {
+        return <div>
+          <input
+              {...props}
+              type="radio" name={def.title}
+              value={val}
+              checked={val === value} />
+          {def.optionalEnumNames[i]}
+        </div>
       })}
-    </select>
+      <div>
+        Other: <input {...props} type="text" />
+      </div>
+    </div>
   } else if(def.format === 'date') {
     return <input {...props} type="date" />
   } else if(def.type === 'number') {
