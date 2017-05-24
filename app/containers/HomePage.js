@@ -86,6 +86,7 @@ const FilterRadioGroup = ({values, labels, onChange, disabled}) => (
     {values.map((value, i) => {
       return <RadioButton
           disabled={disabled}
+          key={value}
           value={value} label={labels[i]}
           style={{marginBottom: 12}} />
     })}

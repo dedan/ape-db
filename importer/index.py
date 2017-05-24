@@ -47,11 +47,10 @@ def _get_date_definition(title):
         'format': 'date'
     }
 
-def _get_number_string_definition(title, number_string):
+def _get_number_string_definition(title):
     return {
         'title': title,
-        'type': 'string',
-        'pattern': number_string.replace('#', '\d').replace('.', '\.') + '|Ø'
+        'type': 'number',
     }
 
 def _get_temperature_definition(title):
@@ -86,8 +85,8 @@ def _grouper(g):
     elif 'dd-MMM-yyyy' in list(g.value):
         return _get_date_definition(title)
     # Number fields
-    elif '#' in first_value and not 'Temperature' in title:
-        return _get_number_string_definition(title, first_value)
+    elif '#' in first_value and not ':' in first_value and not 'Temperature' in title:
+        return _get_number_string_definition(title)
     # Temperature field
     elif 'Temperature' in title:
         return _get_temperature_definition(title)
