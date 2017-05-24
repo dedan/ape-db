@@ -8,6 +8,8 @@ const storage = require('electron-json-storage');
 import {settingsInitialState} from 'reducers/settings'
 import watch from 'watch'
 import {addFile, loadCatalog} from 'actions/actions'
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 
 
 storage.get('settings', function(error, data) {

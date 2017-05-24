@@ -1,6 +1,5 @@
 // TODO: activate flow again
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import React, { Component } from 'react';
 import type { Children} from 'react';
 import {connect} from 'react-redux';
@@ -19,7 +18,6 @@ class App extends Component {
 
   constructor(props) {
     super(props)
-    injectTapEventPlugin();
   }
 
   render() {
