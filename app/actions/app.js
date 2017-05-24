@@ -19,7 +19,7 @@ export function setWithEntryFilter(value) {
 }
 
 export function setEntryValidityFilter(value) {
-  if (!['valid', 'invalid', 'off'].includes(value)) {
+  if (!['valid', 'invalid', 'off', 'placeholder'].includes(value)) {
     throw 'Invalid filter value'
   }
   return {type: SET_ENTRY_VALIDITY_FILTER, value}

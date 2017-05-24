@@ -73,8 +73,8 @@ const BookIndexFilter = ({onWithEntryFilterClick, onEntryValidityFilterClick, se
     <FilterRadioGroup
         disabled={!selectedBookId}
         onChange={onEntryValidityFilterClick}
-        values={['off', 'valid', 'invalid']}
-        labels={['Off', 'With valid entries', 'With invalid entries']} />
+        values={['off', 'valid', 'invalid', 'placeholder']}
+        labels={['Off', 'With valid entries', 'With invalid entries', 'With placeholder']} />
   </div>
 )
 
@@ -148,6 +148,10 @@ function mapStateToProps(state) {
       entryValidityFilter = page.entries.some(entryId => {
         const entry = entries[entryId]
         return entry.isValidated && !entry.isValid
+      })
+    } else if (entryValidityFilterValue === 'placeholder') {
+      entryValidityFilter = page.entries.some(entryId => {
+        return entries[entryId].isPlaceholder
       })
     } else if (entryValidityFilterValue === 'off') {
       entryValidityFilter = true
