@@ -32,7 +32,7 @@ def get_definitions_from_index(index):
     variable_counts = definitions.variable.value_counts()
     duplicates = list(variable_counts[variable_counts > 1].index)
     if duplicates:
-        print('⚠️  {} duplicated variables [{}]'.format(len(duplicates), duplicates))
+        print('⚠️  {} duplicated variables {}'.format(len(duplicates), duplicates))
         print(' ==> Dropping those variables!')
     definitions = definitions.drop_duplicates(subset=['variable'])
 

@@ -1,10 +1,18 @@
-import os
-import json
+"""
+Script to export the form schemata from the Excel file I got from Noelle.
+
+Usage:
+    python forms.py /path/to/folder/where/you/want/the/forms
+"""
 from collections import OrderedDict
+import json
+from os import path
+import sys
 
 import pandas as pd
+from tqdm import tqdm
 
-FORMS_PATH = '/Users/dedan/projects/monkey-db/test/test-forms/'
+DATA_FILE_NAME = 'OU.OrangutanName.S.1.2017.xls'
 PER_PAGE_VARIABLES = ['source', 'pg#', 'entry#', 'dataENTRYdate', 'dataENTRYperson']
 
 def get_form_for_sheet(form_name, form_sheet):
@@ -27,12 +35,19 @@ def read_form_sheet(spreadsheet_path, all_sheets, sheet_name):
 
 
 if __name__ == '__main__':
-    SHEET_PATH = '/Users/dedan/tmp/OU.OrangutanName.S.1.2017.xls'
-    all_sheets = pd.read_excel(SHEET_PATH, sheetname=None)
+    if not len(sys.argv) > 1:
+        print('⚠️    Output folder missing')
+        print(__doc__)
+        sys.exit(1)
+
+    forms_path = sys.argv[1]
+    script_path = path.dirname(path.realpath(__file__))
+    sheet_path =  path.join(script_path, '..', 'data', DATA_FILE_NAME)
+    all_sheets = pd.read_excel(sheet_path, sheetname=None)
 
     all_form_names = list(all_sheets.keys() - ['INDEX'])
-    for form_name in all_form_names:
-        form_sheet = read_form_sheet(SHEET_PATH, all_sheets, form_name)
+    for form_name in tqdm(all_form_names):
+        form_sheet = read_form_sheet(sheet_path, all_sheets, form_name)
         form = get_form_for_sheet(form_name, form_sheet)
-        with open(os.path.join(FORMS_PATH, form_name + '.json'), 'w') as f:
+        with open(path.join(forms_path, form_name + '.json'), 'w') as f:
             json.dump(form, f)
