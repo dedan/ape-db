@@ -53,6 +53,9 @@ export function validateEntries() {
       const entry = entries[entryId]
       const schema = getSchema(entry.form)
       const entryData = fs.readJsonSync(entry.path)
+      if (entryData.isPlaceholder) {
+        return
+      }
       try {
         var valid = ajv.validate(schema, entryData);
         entries[entryId] = {
