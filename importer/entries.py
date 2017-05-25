@@ -7,6 +7,7 @@ Usage:
     Catalog: This is the path you later have to point the application to.
     Forms: This is where you created definitions.json using index.py.
 """
+import datetime
 import json
 import os
 from os import path
@@ -22,6 +23,17 @@ import data_sheet
 DATA_FILE_NAME = 'OU.OrangutanName.S.1.2017.xls'
 
 
+def _converter(value):
+    if pd.isnull(value):
+        return None
+    elif isinstance(value, datetime.datetime):
+        return value.strftime('%Y-%m-%d')
+    elif isinstance(value, datetime.time):
+        return value.strftime('%H:%M')
+    else:
+        return value
+
+
 def _export_form_sheet(form_sheet, catalog_path):
     entry_columns = form_sheet.columns[3:]
     for index, row in form_sheet.iterrows():
@@ -33,10 +45,14 @@ def _export_form_sheet(form_sheet, catalog_path):
             entryFileName = '{}_{}.json'.format(entry, form_name)
             entry_path = path.join(catalog_path, book, page, entryFileName)
             os.makedirs(path.dirname(entry_path), exist_ok=True)
+
             # TODO: Validate with shema before writing.
             with open(entry_path, 'w') as f:
-                json_entry = row[entry_columns].to_json(date_format='iso')
-                f.write(json_entry)
+                row_object = {
+                   key: _converter(e)
+                   for key, e in row[entry_columns].iteritems()
+                }
+                f.write(json.dumps(row_object))
         except Exception:
             print(form_name)
             if 'pgQ' in row:
