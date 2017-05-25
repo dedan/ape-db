@@ -119,8 +119,8 @@ export function loadCatalog(basePath) {
           currentPage.thumbnail = pathStats.path
           return
         case 'ENTRY':
-          const entryId = file.fileName.slice(0, -5)
-          const [entryNumber, form] = entryId.split('_')
+          const entryId = file.book + '_' + file.fileName.slice(0, -5)
+          const [book, entryNumber, form] = entryId.split('_')
           currentPage.entries.push(entryId)
           const entry = fs.readJsonSync(pathStats.path)
           entries[entryId] = {
