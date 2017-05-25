@@ -7,6 +7,8 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 const {dialog} = require('electron').remote
 import path from 'path'
 import fs from 'fs-extra'
+import {thumb} from 'node-thumbnail'
+
 
 export default class FileAdder extends Component {
 
@@ -42,6 +44,8 @@ export default class FileAdder extends Component {
       }
     })
     fs.copySync(this.state.path, filePath);
+    createThumbnail(filePath)
+
     const newPage = {
       pageId: page,
       original: filePath,
@@ -67,6 +71,23 @@ export default class FileAdder extends Component {
           onClose={this.handleDialogClose} />
     </div>
   }
+}
+
+
+function createThumbnail(imagePath) {
+  thumb({
+    source: imagePath,
+    destination: path.dirname(imagePath),
+    concurrency: 1,
+    width: 200,
+    suffix: '_thumbnail',
+  }, function(files, err, stdout, stderr) {
+    if (err) {
+      console.log('>>', err)
+    } else {
+      console.log('All done, yo!');
+    }
+  })
 }
 
 
