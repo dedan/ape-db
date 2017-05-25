@@ -44,21 +44,27 @@ class SettingsDialog extends Component {
     ];
     return (
       <Dialog title="Settings" actions={actions} modal={true} open={isOpen}>
+        <div>
+          Before you can use the application, you have to tell it where to
+          find the <b>catalog folder</b> (images and entries) and the folder with
+          the <b>form schemata</b>. They should be both in the pcloud folder on your computer.
+        </div>
+        <br />
         <RaisedButton
-          label={`${settings.path ? 'Change' : 'Select'} the data path`}
+          label={`${settings.path ? 'Change' : 'Select'} the catalog path`}
           style={{margin: 12}}
           onClick={this.handlePathClick('path')} />
         <TextField
           disabled={true}
           value={this.state.path || ''}
-          hintText="No path set" />
+          hintText="No catalog path set" />
         <RaisedButton
           label={`${settings.formPath ? 'Change' : 'Select'} the forms path`}
           style={{margin: 12}}
           onClick={this.handlePathClick('formsPath')} />
         <TextField
           disabled={true}
-          value={this.state.formPath || ''}
+          value={this.state.formsPath || ''}
           hintText="No forms path set" />
       </Dialog>
     );
