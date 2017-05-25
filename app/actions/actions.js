@@ -53,9 +53,9 @@ export function setSettings(settings) {
       if (error) throw error;
     });
 
+    initWithPath(settings.formPath)
     dispatch({type: SET_SETTINGS, settings})
     dispatch(loadCatalog(settings.path))
-    initWithPath(settings.formPath)
   }
 }
 
