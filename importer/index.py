@@ -10,7 +10,11 @@ def get_index_from_sheet(sheet):
         'Data values to enter into excel',
         'Which forms?',
     ]
-    cols_to_join = ['Data variable as written on entry form', 'Unnamed: 1', 'Unnamed: 2', 'Unnamed: 3']
+    cols_to_join = [
+        'Data variable as written on entry form',
+        'Unnamed: 1', 'Unnamed: 2', 'Unnamed: 3'
+    ]
+
     def joiner(row):
         bla = [s for s in row if isinstance(s, str) and s]
         return ' - '.join(bla) if bla else row.iloc[0]
@@ -41,12 +45,14 @@ def get_definitions_from_index(index):
         for (index, row) in definitions.iterrows()
     }
 
+
 def _get_mandatory_string(title):
     return {
         'title': title,
         'type': 'string',
         'minLength': 1,
     }
+
 
 def _get_date_definition(title):
     return {
@@ -55,11 +61,13 @@ def _get_date_definition(title):
         'format': 'date'
     }
 
+
 def _get_number_string_definition(title):
     return {
         'title': title,
         'type': 'number',
     }
+
 
 def _get_temperature_definition(title):
     return {
@@ -67,6 +75,7 @@ def _get_temperature_definition(title):
         'type': 'string',
         'pattern': '(\d+(\.\d+)?\w?[CF])|Ø',
     }
+
 
 def _get_enum_definition(title, form_values, values):
     form_values, values = list(form_values), list(values)
@@ -81,6 +90,7 @@ def _get_enum_definition(title, form_values, values):
         'type': 'string',
     }
 
+
 def _grouper(g):
     title = str(g.form_variable.iloc[0])
     first_value = g.value.iloc[0]
@@ -94,7 +104,7 @@ def _grouper(g):
     elif 'dd-MMM-yyyy' in list(g.value):
         return _get_date_definition(title)
     # Number fields
-    elif '#' in first_value and not ':' in first_value and not 'Temperature' in title:
+    elif '#' in first_value and ':' not in first_value and 'Temperature' not in title:
         return _get_number_string_definition(title)
     # Temperature field
     elif 'Temperature' in title:
@@ -111,5 +121,3 @@ if __name__ == '__main__':
     definitions = get_definitions_from_index(index)
     with open(OUT_PATH, 'w') as f:
         json.dump(definitions, f, indent=2)
-
-
