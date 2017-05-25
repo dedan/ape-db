@@ -77,7 +77,7 @@ const BookIndexFilter = ({onWithEntryFilterClick, onEntryValidityFilterClick, se
         disabled={!selectedBookId}
         onChange={onWithEntryFilterClick}
         values={['off', 'with', 'without']}
-        labels={['Off', 'No entries', 'With entries']} />
+        labels={['Off', 'With entries', 'No entries']} />
     <FilterRadioGroup
         disabled={!selectedBookId}
         onChange={onEntryValidityFilterClick}
