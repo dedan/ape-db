@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -18,13 +17,13 @@ class SettingsDialog extends Component {
     this.state = {...props.settings}
   }
 
-  handlePathClick = () => {
+  handlePathClick = variable => () => {
     dialog.showOpenDialog({properties: ['openDirectory']}, fileNames => {
       if(fileNames === undefined){
           console.log("No file selected");
           return;
       }
-      this.setState({path: fileNames[0]})
+      this.setState({[variable]: fileNames[0]})
     })
   }
 
@@ -39,7 +38,7 @@ class SettingsDialog extends Component {
       <FlatButton
         label="Save"
         primary={true}
-        disabled={!this.state.path}
+        disabled={!this.state.path || !this.state.formsPath}
         onClick={this.handleSaveClick}
       />,
     ];
@@ -48,14 +47,19 @@ class SettingsDialog extends Component {
         <RaisedButton
           label={`${settings.path ? 'Change' : 'Select'} the data path`}
           style={{margin: 12}}
-          onClick={this.handlePathClick} />
+          onClick={this.handlePathClick('path')} />
         <TextField
           disabled={true}
           value={this.state.path || ''}
           hintText="No path set" />
-        <div>
-          Author will be set here later.
-        </div>
+        <RaisedButton
+          label={`${settings.formPath ? 'Change' : 'Select'} the forms path`}
+          style={{margin: 12}}
+          onClick={this.handlePathClick('formsPath')} />
+        <TextField
+          disabled={true}
+          value={this.state.formPath || ''}
+          hintText="No forms path set" />
       </Dialog>
     );
   }

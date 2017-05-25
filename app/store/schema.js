@@ -1,15 +1,27 @@
 import path from 'path'
 import fs from 'fs-extra'
 
-const FORMS_PATH = '/Users/dedan/projects/monkey-db/test/test-forms/'
-const DEFS_PATH = [FORMS_PATH, 'definitions.json'].join(path.sep)
-const definitions = fs.readJsonSync(DEFS_PATH)
 
 const cache = {}
 
+// TODO: Find a better solution than this ugly thing (initWithPath) we have here.
+// Probably best import all schemata to the state and initialize it
+// similar to the catalog.
+export function initWithPath(formsPath) {
+  cache.formsPath = formsPath
+}
+
 export function getSchema(form) {
+  if (!cache.formsPath) {
+    return {}
+  }
+  if (!cache.definitions) {
+  const defsPath = [cache.formsPath, 'definitions.json'].join(path.sep)
+    cache.definitions = fs.readJsonSync(defsPath)
+  }
+  const definitions = cache.definitions
   if (!cache[form]) {
-    const formPath = [FORMS_PATH, form].join(path.sep) + '.json';
+    const formPath = [cache.formsPath, form].join(path.sep) + '.json';
     const schema = fs.readJsonSync(formPath)
     schema.properties = _.pick(schema.properties, Object.keys(definitions))
     schema.definitions = definitions
@@ -19,8 +31,11 @@ export function getSchema(form) {
 }
 
 export function getFormNames() {
+  if (!cache.formsPath) {
+    return ['']
+  }
   if (!cache.formNames) {
-    const formFileNames = fs.readdirSync(FORMS_PATH)
+    const formFileNames = fs.readdirSync(cache.formsPath)
     const formNames = formFileNames.
       map(formFileName => {
         return path.basename(formFileName, '.json')

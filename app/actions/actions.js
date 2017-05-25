@@ -4,7 +4,7 @@ import path from 'path'
 var Ajv = require('ajv');
 var ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
 import fs from 'fs-extra'
-import {getSchema} from '../store/schema'
+import {getSchema, initWithPath} from '../store/schema'
 
 
 export const SET_SETTINGS = 'SET_SETTINGS'
@@ -31,6 +31,7 @@ export function setSettings(settings) {
 
     dispatch({type: SET_SETTINGS, settings})
     dispatch(loadCatalog(settings.path))
+    initWithPath(settings.formPath)
   }
 }
 

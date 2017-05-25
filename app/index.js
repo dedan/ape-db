@@ -9,6 +9,7 @@ import {settingsInitialState} from 'reducers/settings'
 import watch from 'watch'
 import {addFile, loadCatalog} from 'actions/actions'
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import {initWithPath} from 'store/schema'
 injectTapEventPlugin();
 
 
@@ -23,6 +24,9 @@ storage.get('settings', function(error, data) {
 
   if (initialState.settings.path) {
     store.dispatch(loadCatalog(initialState.settings.path))
+  }
+  if (initialState.settings.formsPath) {
+    initWithPath(initialState.settings.formsPath)
   }
 
   render(
