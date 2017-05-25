@@ -65,7 +65,7 @@ class DetailsPage extends Component {
     return (
       <div>
         <div style={headerStyle}>
-          <Link to="/">
+          <Link to={`/${book}`}>
             <i className="fa fa-arrow-left fa-3x" />
           </Link>
           <ReactImageZoom
