@@ -15,8 +15,22 @@ from tqdm import tqdm
 DATA_FILE_NAME = 'OU.OrangutanName.S.1.2017.xls'
 PER_PAGE_VARIABLES = ['source', 'pg#', 'entry#', 'dataENTRYdate', 'dataENTRYperson']
 
-def get_form_for_sheet(form_name, form_sheet):
+
+def read_form_sheet(spreadsheet_path, all_sheets, sheet_name):
+    df = all_sheets[sheet_name]
+    mask = df['Information about data Entry'] == 'source'
+    header_index = df[mask].index[0] + 1
+    return pd.read_excel(spreadsheet_path, sheetname=sheet_name, header=header_index)
+
+
+def get_form_for_sheet(form_name, form_sheet, definitions):
     form_variables = form_sheet.columns[len(PER_PAGE_VARIABLES):]
+    missing_definitions = set(form_variables) - set(definitions)
+    if missing_definitions:
+        print('⚠️   Definitions missing for {} {}'.format(form_name, missing_definitions))
+        print('     ==> Dropping those columns!')
+    form_variables = [v for v in form_variables if v in definitions]
+
     return {
         'type': 'object',
         'title': form_name,
@@ -27,27 +41,28 @@ def get_form_for_sheet(form_name, form_sheet):
         })
     }
 
-def read_form_sheet(spreadsheet_path, all_sheets, sheet_name):
-    df = all_sheets[sheet_name]
-    mask = df['Information about data Entry'] == 'source'
-    header_index = df[mask].index[0] + 1
-    return pd.read_excel(spreadsheet_path, sheetname=sheet_name, header=header_index)
-
 
 if __name__ == '__main__':
     if not len(sys.argv) > 1:
         print('⚠️    Output folder missing')
         print(__doc__)
         sys.exit(1)
-
     forms_path = sys.argv[1]
+
+    definitions_path = path.join(forms_path, 'definitions.json')
+    if not path.exists(definitions_path):
+        print('⚠️    Definitions file missing')
+        print('Please first create definitions.json by running index.py')
+        sys.exit(1)
+    definitions = json.load(open(definitions_path))
+
     script_path = path.dirname(path.realpath(__file__))
-    sheet_path =  path.join(script_path, '..', 'data', DATA_FILE_NAME)
+    sheet_path = path.join(script_path, '..', 'data', DATA_FILE_NAME)
     all_sheets = pd.read_excel(sheet_path, sheetname=None)
 
     all_form_names = list(all_sheets.keys() - ['INDEX'])
     for form_name in tqdm(all_form_names):
         form_sheet = read_form_sheet(sheet_path, all_sheets, form_name)
-        form = get_form_for_sheet(form_name, form_sheet)
+        form = get_form_for_sheet(form_name, form_sheet, definitions)
         with open(path.join(forms_path, form_name + '.json'), 'w') as f:
             json.dump(form, f)
