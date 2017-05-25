@@ -42,7 +42,12 @@ export default class FileAdder extends Component {
       }
     })
     fs.copySync(this.state.path, filePath);
-    onFileCopied(filePath)
+    const newPage = {
+      pageId: page,
+      original: filePath,
+      entries: [],
+    }
+    onFileCopied(book, newPage)
     this.setState({path: ''})
   }
 

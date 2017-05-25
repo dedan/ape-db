@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux'
 import path from 'path'
 import Catalog from '../components/Catalog';
 import FileAdder from '../components/FileAdder';
-import {addFile, validateEntries} from '../actions/actions'
+import {addPage, validateEntries} from '../actions/actions'
 import {getSchema} from '../store/schema'
 import {List, ListItem} from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -16,9 +16,9 @@ import {grey300} from 'material-ui/styles/colors';
 
 class HomePage extends Component {
 
-  handleFileCopied = filePath => {
+  handleFileCopied = (bookId, newPage) => {
     const {actions, settings} = this.props
-    actions.addFile(filePath)
+    actions.addPage(bookId, newPage)
   }
 
   render() {
@@ -174,7 +174,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({...appActions, validateEntries, addFile}, dispatch)
+    actions: bindActionCreators({...appActions, validateEntries, addPage}, dispatch)
   }
 }
 

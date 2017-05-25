@@ -37,7 +37,7 @@ export default class Catalog extends Component {
               </TableRowColumn>
               <TableRowColumn>
                 <div style={{display: 'flex', flexWrap: 'wrap'}}>
-                  {page.entries.map((entryId, i) => {
+                  {(page.entries || []).map((entryId, i) => {
                     const entry = entries[entryId]
                     const color = entry.isPlaceholder ?
                       blue300

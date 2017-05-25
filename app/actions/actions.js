@@ -12,7 +12,7 @@ export const INVALID_BOOK_ERROR = 'INVALID_BOOK_ERROR'
 export const INVALID_PAGE_ERROR = 'INVALID_PAGE_ERROR'
 export const INVALID_PATH_DEPTH = 'INVALID_PATH_DEPTH'
 export const ADD_CATALOG = 'ADD_CATALOG'
-export const ADD_ORIGINAL = 'ADD_ORIGINAL'
+export const ADD_PAGE = 'ADD_PAGE'
 export const ADD_THUMBNAIL = 'ADD_THUMBNAIL'
 export const ADD_ENTRY = 'ADD_ENTRY'
 export const UPDATE_ENTRY = 'UPDATE_ENTRY'
@@ -29,28 +29,9 @@ export function updateEntry(entryId, properties) {
   return {type: UPDATE_ENTRY, entryId, properties}
 }
 
-export function addFile(filePath) {
-  return (dispatch: () => void, getState) => {
-    const basePath = getState().settings.path
-    const file = splitAbsPath(basePath, filePath)
-    if (file.errors.length) {
-      file.errors.forEach(dispatch)
-      return
-    }
-
-    const {book, page, fileName} = file
-    const fileType = getFileType(file.fileName)
-    switch (fileType) {
-      case 'ORIGINAL':
-        dispatch({type: ADD_ORIGINAL, book, page, filePath})
-        return
-      case 'THUMBNAIL':
-        dispatch({type: ADD_THUMBNAIL, book, page, filePath})
-        return
-    }
-  }
+export function addPage(bookId, newPage) {
+  return {type: ADD_PAGE, bookId, newPage}
 }
-
 
 export function setSettings(settings) {
   return dispatch => {
