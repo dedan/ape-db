@@ -23,6 +23,30 @@ const PAGE_REG = /p\d{3}/
 const ORIGINAL_REG = /\w{2}\.\w+\.[MF]\.\d\.\d{4}_p\d{3}.jpg/
 const THUMBNAIL_REG = /\w{2}\.\w+\.[MF]\.\d\.\d{4}_p\d{3}_thumbnail.jpg/
 
+
+export function addFile(filePath) {
+  return (dispatch: () => void, getState) => {
+    const basePath = getState().settings.path
+    const file = splitAbsPath(basePath, filePath)
+    if (file.errors.length) {
+      file.errors.forEach(dispatch)
+      return
+    }
+
+    const {book, page, fileName} = file
+    const fileType = getFileType(file.fileName)
+    switch (fileType) {
+      case 'ORIGINAL':
+        dispatch({type: ADD_ORIGINAL, book, page, filePath})
+        return
+      case 'THUMBNAIL':
+        dispatch({type: ADD_THUMBNAIL, book, page, filePath})
+        return
+    }
+  }
+}
+
+
 export function setSettings(settings) {
   return dispatch => {
     storage.set('settings', settings, function(error) {

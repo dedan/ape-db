@@ -16,13 +16,9 @@ import {grey300} from 'material-ui/styles/colors';
 
 class HomePage extends Component {
 
-  handleFileCopied = relFilePath => {
-    const {dispatch, settings} = this.props
-    const fakeFstat = {
-      isDirectory: () => false
-    }
-    const absPath = [settings.path, relFilePath].join(path.sep)
-    dispatch(addFile(absPath, relFilePath, fakeFstat))
+  handleFileCopied = filePath => {
+    const {actions, settings} = this.props
+    actions.addFile(filePath)
   }
 
   render() {
@@ -178,7 +174,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({...appActions, validateEntries}, dispatch)
+    actions: bindActionCreators({...appActions, validateEntries, addFile}, dispatch)
   }
 }
 

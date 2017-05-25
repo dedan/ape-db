@@ -42,8 +42,7 @@ export default class FileAdder extends Component {
       }
     })
     fs.copySync(this.state.path, filePath);
-    const relFilePath = [book, page, fileName].join(path.sep)
-    onFileCopied(relFilePath)
+    onFileCopied(filePath)
     this.setState({path: ''})
   }
 

@@ -10,6 +10,10 @@ const initialState = {
 
 export default function catalog(state = initialState, action) {
   switch (action.type) {
+    case ADD_ORIGINAL:
+      return upsertPage(state, action, {original: action.filePath})
+    case ADD_THUMBNAIL:
+      return upsertPage(state, action, {thumbnail: action.filePath})
     case ADD_CATALOG:
       return action.catalog
     case UPDATE_ALL_ENTRIES:
@@ -39,5 +43,20 @@ export default function catalog(state = initialState, action) {
       }
     default:
       return state;
+  }
+}
+
+function upsertPage(catalog, action, props) {
+  const currentBook = catalog[action.book] || {}
+  const currentPage = currentBook[action.page] || {}
+  return {
+    ...catalog,
+    [action.book]: {
+      ...currentBook,
+      [action.page]: {
+        ...currentPage,
+        ...props
+      }
+    }
   }
 }
