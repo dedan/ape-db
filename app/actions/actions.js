@@ -19,10 +19,10 @@ export const UPDATE_ENTRY = 'UPDATE_ENTRY'
 export const START_ENTRIES_VALIDATION = 'START_ENTRIES_VALIDATION'
 export const UPDATE_ALL_ENTRIES = 'UPDATE_ALL_ENTRIES'
 
-const BOOK_REG = /\w{2}\.\w+\.[MF]\.\d\.\d{4}/
-const PAGE_REG = /p\d{3}/
-const ORIGINAL_REG = /\w{2}\.\w+\.[MF]\.\d\.\d{4}_p\d{3}.jpg/
-const THUMBNAIL_REG = /\w{2}\.\w+\.[MF]\.\d\.\d{4}_p\d{3}_thumbnail.jpg/
+const BOOK_REG = /^\w{2}\.\w+\.[MF]\.\d\.\d{4}$/
+const PAGE_REG = /^p\d{3}\w?$/
+const ORIGINAL_REG = /^\w{2}\.\w+\.[MF]\.\d\.\d{4}_p\d{3}.jpg$/
+const THUMBNAIL_REG = /^\w{2}\.\w+\.[MF]\.\d\.\d{4}_p\d{3}_thumbnail.jpg$/
 
 
 export function updateEntry(entryId, properties) {
