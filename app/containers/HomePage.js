@@ -13,6 +13,7 @@ import * as appActions from '../actions/app'
 import _ from 'underscore'
 import PropTypes from 'prop-types';
 import {grey300} from 'material-ui/styles/colors';
+import BusyDialog from '../components/BusyDialog'
 
 class HomePage extends Component {
 
@@ -22,7 +23,7 @@ class HomePage extends Component {
   }
 
   render() {
-    const {actions, bookPages, books, entries, selectedBookId, settings} = this.props
+    const {actions, app, bookPages, books, entries, selectedBookId, settings} = this.props
     const headerStyle = {
       position: 'absolute',
       top: 0,
@@ -42,6 +43,8 @@ class HomePage extends Component {
     }
     return (
       <div>
+        <BusyDialog
+            isOpen={app.isValidating} />
         <div style={headerStyle}>
           <div>
             <h2>{Object.keys(books).length} Books</h2>
@@ -129,7 +132,7 @@ const BookList = ({books, onItemClick, selectedBookId}) => (
 
 
 function mapStateToProps(state) {
-  const {settings} = state
+  const {app, settings} = state
   const {selectedBookId, withEntryFilterValue, entryValidityFilterValue} = state.app
   const {books, entries} = state.catalog
 
@@ -169,7 +172,7 @@ function mapStateToProps(state) {
 
     return withEntryFilter && entryValidityFilter
   })
-  return {books, bookPages, entries, selectedBookId, settings}
+  return {app, books, bookPages, entries, selectedBookId, settings}
 }
 
 function mapDispatchToProps(dispatch) {
