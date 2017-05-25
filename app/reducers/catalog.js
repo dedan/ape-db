@@ -3,7 +3,10 @@ import update from 'immutability-helper';
 import {ADD_CATALOG, ADD_ORIGINAL, ADD_THUMBNAIL, ADD_ENTRY,
 UPDATE_ALL_ENTRIES} from '../actions/actions';
 
-const initialState = {}
+const initialState = {
+  books: {},
+  entries: {},
+}
 
 export default function catalog(state = initialState, action) {
   switch (action.type) {
