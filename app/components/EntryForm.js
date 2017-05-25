@@ -92,6 +92,7 @@ class MyForm extends Component {
     if (!valid) {
       const errors = _.indexBy(ajv.errors, 'dataPath')
       this.setState({errors})
+      onSubmit && onSubmit({formData: localFormData})
     } else {
       this.setState({errors: null})
       onSubmit && onSubmit({formData: localFormData})
