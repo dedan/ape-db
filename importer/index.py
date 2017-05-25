@@ -8,7 +8,7 @@ def get_index_from_sheet(sheet):
         'Excel column header',
         'Data values as written on entry form',
         'Data values to enter into excel',
-        'Which forms?',
+        'h',
     ]
     cols_to_join = [
         'Data variable as written on entry form',
@@ -114,7 +114,7 @@ def _grouper(g):
 
 
 if __name__ == '__main__':
-    SHEET_PATH = '/Users/dedan/tmp/OU.OrangutanName.S.1.2017.xls'
+    SHEET_PATH = '/Users/dedan/projects/monkey-db/data/Merge R+R+N+A+P NEW.xlsx'
     OUT_PATH = '/Users/dedan/projects/monkey-db/test/test-forms/definitions.json'
     all_sheets = pd.read_excel(SHEET_PATH, sheetname=None)
     index = get_index_from_sheet(all_sheets['INDEX'])

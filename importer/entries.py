@@ -19,7 +19,7 @@ from tqdm import tqdm
 import data_sheet
 
 
-DATA_FILE_NAME = 'OU.OrangutanName.S.1.2017.xls'
+DATA_FILE_NAME = 'Merge R+R+N+A+P NEW.xlsx'
 
 
 def _export_form_sheet(form_sheet, catalog_path):
@@ -43,7 +43,7 @@ def _export_form_sheet(form_sheet, catalog_path):
                 print('Wrong page column name')
             else:
                 print('Invalid Entry (book: {}, page: {}, entry: {})'.format(
-                    row['source'], row['pg#'], row['entry#']))
+                    row['book'], row['pg#'], row['entry#']))
 
 
 page_pattern = re.compile('(\d+)(\w?)')
