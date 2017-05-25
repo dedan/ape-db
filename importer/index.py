@@ -80,7 +80,7 @@ def _get_temperature_definition(title):
 def _get_enum_definition(title, form_values, values):
     form_values, values = list(form_values), list(values)
     enum_names = [
-        name if name != '[as written]' else values[i]
+        str(name) if name != '[as written]' else values[i]
         for i, name in enumerate(form_values)]
     enum_type = 'optionalEnum' if '[as written]' in values else 'enum'
     return {
