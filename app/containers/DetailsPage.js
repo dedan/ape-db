@@ -76,7 +76,7 @@ class DetailsPage extends Component {
             <List>
               {_.map(pageEntries, entry => {
                 const url = `/current-page/${book}/${page}/${entry.entryId}`
-                const backgroundColor = entry.entryId === currentEntry.entryId ? grey300 : null
+                const backgroundColor = currentEntry && entry.entryId === currentEntry.entryId ? grey300 : null
                 return <Link to={url} key={entry.entryId}>
                   <ListItem
                       style={{backgroundColor}}
