@@ -32,8 +32,9 @@ export class NewEntryDialog extends Component {
     const entryNumberDigits = m[1]
     const entryNumberChar = m[2] || ''
     const validEntryNumber = 'E' + pad(entryNumberDigits, 4) + entryNumberChar
-    const entryId = book + '_' + validEntryNumber + '_' + entryForm
-    const entryPath = [basePath, book, page, entryId].join(path.sep) + '.json'
+    const fileEntryId = validEntryNumber + '_' + entryForm
+    const entryId = book + '_' + fileEntryId
+    const entryPath = [basePath, book, page, fileEntryId].join(path.sep) + '.json'
     const emptyForm = {
       isPlaceholder: true,
       entryCreator,
