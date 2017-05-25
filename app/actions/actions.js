@@ -24,13 +24,13 @@ const ORIGINAL_REG = /\w{2}\.\w+\.[MF]\.\d\.\d{4}_p\d{3}.jpg/
 const THUMBNAIL_REG = /\w{2}\.\w+\.[MF]\.\d\.\d{4}_p\d{3}_thumbnail.jpg/
 
 export function setSettings(settings) {
-  storage.set('settings', settings, function(error) {
-    if (error) throw error;
-  });
+  return dispatch => {
+    storage.set('settings', settings, function(error) {
+      if (error) throw error;
+    });
 
-  return {
-    type: SET_SETTINGS,
-    settings
+    dispatch({type: SET_SETTINGS, settings})
+    dispatch(loadCatalog(settings.path))
   }
 }
 
@@ -108,7 +108,6 @@ export function loadCatalog(basePath) {
       }
     })
     const catalog = {books, entries}
-    console.log('>>', catalog)
     dispatch({type: ADD_CATALOG, catalog})
   }
 }
