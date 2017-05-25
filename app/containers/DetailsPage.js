@@ -12,7 +12,7 @@ import {List, ListItem} from 'material-ui/List';
 import _ from 'underscore'
 import {EntryForm} from '../components/EntryForm'
 import {NewEntryDialog} from '../components/NewEntryDialog'
-import {addNewEntry} from '../actions/actions'
+import {addNewEntry, updateEntry} from '../actions/actions'
 import {grey300} from 'material-ui/styles/colors';
 
 class DetailsPage extends Component {
@@ -22,7 +22,9 @@ class DetailsPage extends Component {
   }
 
   handleFormSubmit = ({formData}) => {
-    const {currentEntry} = this.props
+    const {currentEntry, dispatch} = this.props
+    dispatch(updateEntry(currentEntry.entryId, {isPlaceholder: false}))
+    formData.isPlaceholder = false
     fs.writeJsonSync(currentEntry.path, formData)
   }
 

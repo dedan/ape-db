@@ -46,6 +46,7 @@ function getFieldForDef(def, value, changeHandler) {
         return <div>
           <input
               {...props}
+              key={i}
               type="radio" name={def.title}
               value={val}
               checked={val === value} />

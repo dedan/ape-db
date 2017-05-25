@@ -1,7 +1,7 @@
 // TODO: bring back the flow.
 import update from 'immutability-helper';
 import {ADD_CATALOG, ADD_ORIGINAL, ADD_THUMBNAIL, ADD_ENTRY,
-UPDATE_ALL_ENTRIES} from '../actions/actions';
+UPDATE_ALL_ENTRIES, UPDATE_ENTRY} from '../actions/actions';
 
 const initialState = {
   books: {},
@@ -16,6 +16,17 @@ export default function catalog(state = initialState, action) {
       return upsertPage(state, action, {thumbnail: action.filePath})
     case ADD_CATALOG:
       return action.catalog
+    case UPDATE_ENTRY:
+      return {
+        ...state,
+        entries: {
+          ...state.entries,
+          [action.entryId]: {
+            ...state.entries[action.entryId],
+            ...action.properties
+          }
+        }
+      }
     case UPDATE_ALL_ENTRIES:
       return {
         books: state.books,
