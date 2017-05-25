@@ -18,16 +18,24 @@ def get_index_from_sheet(sheet):
 
     sheet = sheet[cols_to_use].reset_index()
     sheet.columns = ['group', 'form_variable', 'variable', 'form_value', 'value', 'used_on']
+    # Drop all the lines with no values in the end of the file.
+    sheet.dropna(subset=['value'], inplace=True)
     sheet.fillna(method='pad', inplace=True)
-    sheet.drop_duplicates(subset=['variable', 'form_value', 'value'], inplace=True)
     return sheet
 
 
 def get_definitions_from_index(index):
-    definitions = index.groupby('variable').apply(_grouper)
+    definitions = index.groupby(['form_variable', 'variable']).apply(_grouper)
     definitions = definitions.reset_index(name='type_def')
-    # TODO: Why do we have duplicates?
+
+    # Drop duplicates.
+    variable_counts = definitions.variable.value_counts()
+    duplicates = list(variable_counts[variable_counts > 1].index)
+    if duplicates:
+        print('⚠️  {} duplicated variables [{}]'.format(len(duplicates), duplicates))
+        print(' ==> Dropping those variables!')
     definitions = definitions.drop_duplicates(subset=['variable'])
+
     return {
         row.variable: row.type_def
         for (index, row) in definitions.iterrows()
