@@ -33,7 +33,8 @@ export default class FileAdder extends Component {
   }
 
   handleDialogClose = fileNameInfo => {
-    const {basePath, onFileCopied} = this.props
+    const {settings, onFileCopied} = this.props
+    const basePath = settings.path
     const {book, page, fileName} = fileNameInfo
     const bookPath = [basePath, book].join(path.sep);
     const pagePath = [bookPath, page].join(path.sep);
@@ -46,9 +47,11 @@ export default class FileAdder extends Component {
     fs.copySync(this.state.path, filePath);
     createThumbnail(filePath)
 
+    const thumbnailPath = filePath.slice(0, filePath.length - 4) + '_thumbnail.jpg'
     const newPage = {
       pageId: page,
       original: filePath,
+      thumbnail: thumbnailPath,
       entries: [],
     }
     onFileCopied(book, newPage)
@@ -56,6 +59,7 @@ export default class FileAdder extends Component {
   }
 
   render() {
+    const {settings} = this.props
     const style = {
       position: 'fixed',
       bottom: 20,
@@ -67,6 +71,7 @@ export default class FileAdder extends Component {
         <ContentAdd />
       </FloatingActionButton>
       <FileNamingDialog
+          bookNames={settings.bookNames}
           isOpen={!!this.state.path}
           onClose={this.handleDialogClose} />
     </div>
@@ -113,7 +118,7 @@ class FileNamingDialog extends Component {
   }
 
   render() {
-    const {isOpen} = this.props
+    const {bookNames, isOpen} = this.props
     const {book, page} = this.state
     const actions = [
       <FlatButton
@@ -126,9 +131,18 @@ class FileNamingDialog extends Component {
 
     // TODO: Add validation.
     return <Dialog actions={actions} modal={true} open={isOpen}>
-      <TextField
-          hintText="Book" floatingLabelText="Book"
-          onChange={this.handleChange('book')} />
+      <div>
+        <div>Book Name:</div>
+        <FlatButton
+            label="add book +"
+            onClick={() => alert('coming soon')} />
+      </div>
+      <select onChange={this.handleChange('book')}>
+        <option />
+        {(bookNames || []).map(bookName => {
+          return <option value={bookName}>{bookName}</option>
+        })}
+      </select>
       <br />
       <TextField
           hintText="Page" floatingLabelText="Page"

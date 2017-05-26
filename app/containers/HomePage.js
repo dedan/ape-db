@@ -67,7 +67,7 @@ class HomePage extends Component {
           </div>
         </div>
         <FileAdder
-            basePath={settings.path}
+            settings={settings}
             onFileCopied={this.handleFileCopied} />
       </div>
     );
