@@ -17,7 +17,7 @@ export default class Catalog extends Component {
   render() {
     const {bookId, bookPages, entries, dispatch} = this.props
     return <div>
-      <Table>
+      <Table selectable={false}>
         <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
           <TableRow>
             <TableHeaderColumn style={{width: 100}}>Image</TableHeaderColumn>
