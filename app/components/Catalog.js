@@ -27,10 +27,9 @@ export default class Catalog extends Component {
         </TableHeader>
         <TableBody displayRowCheckbox={false}>
           {bookPages.map(page => {
-            const filePath = 'file://' + page.thumbnail
             return <TableRow key={page.pageId}>
               <TableRowColumn style={{width: 100}}>
-                {page.original ? <img src={filePath} width="100" height="100" /> : null}
+                <Thumbnail page={page} size={100} />
               </TableRowColumn>
               <TableRowColumn style={{width: 100}}>
                 <Link to={`/current-page/${bookId}/${page.pageId}`}>{page.pageId}</Link>
@@ -63,4 +62,32 @@ export default class Catalog extends Component {
       </ul>
     </div>
   }
+}
+
+const Thumbnail = ({page, size}) => {
+  const filePath = 'file://' + page.thumbnail
+  const style= {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+  const placeholderStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: size,
+    height: size,
+    flexDirection: 'column',
+    color: '#bbb',
+  }
+  return (
+    <div style={style}>
+      {page.thumbnail ?
+        <img src={filePath} width={size} height={size} />
+        : <div style={placeholderStyle}>
+          <div>🐒</div>
+          <div>missing</div>
+        </div>}
+    </div>
+  )
 }
