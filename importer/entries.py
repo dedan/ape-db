@@ -20,7 +20,7 @@ from tqdm import tqdm
 import data_sheet
 
 
-DATA_FILE_NAME = 'OU.OrangutanName.S.1.2017.xls'
+DATA_FILE_NAME = 'OFI Care Book Data, 26-May.xls'
 
 
 def _converter(value):
@@ -39,7 +39,7 @@ def _export_form_sheet(form_sheet, catalog_path):
     for index, row in form_sheet.iterrows():
         try:
             # TODO: Validate against regex.
-            book = row.source.split('_')[0].upper()
+            book = row.book.split('_')[0].upper()
             page = _parse_page_string(row['pg#'])
             entry = str(row['entry#'])
             entryFileName = '{}_{}.json'.format(entry, form_name)
@@ -59,7 +59,7 @@ def _export_form_sheet(form_sheet, catalog_path):
                 print('Wrong page column name')
             else:
                 print('Invalid Entry (book: {}, page: {}, entry: {})'.format(
-                    row['source'], row['pg#'], row['entry#']))
+                    row['book'], row['pg#'], row['entry#']))
 
 
 page_pattern = re.compile('(\d+)(\w?)')

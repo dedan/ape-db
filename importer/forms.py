@@ -7,23 +7,32 @@ Usage:
 from collections import OrderedDict
 import json
 from os import path
+import re
 import sys
 
 import pandas as pd
-from tqdm import tqdm
 
 import data_sheet
 
-DATA_FILE_NAME = 'OU.OrangutanName.S.1.2017.xls'
+DATA_FILE_NAME = 'OFI Care Book Data, 26-May.xls'
 PER_PAGE_VARIABLES = ['source', 'pg#', 'entry#']
 
+RE_REPEATED_FIELD = '.*_\d+$'
 
 def get_form_for_sheet(form_name, form_sheet, definitions):
+    print('\n{}'.format(form_name))
     form_variables = form_sheet.columns[len(PER_PAGE_VARIABLES):]
+
+    repeated_field_variables = [v for v in form_variables if re.match(RE_REPEATED_FIELD, v)]
+    if repeated_field_variables:
+        print('❕ There are {} repeated field variables (e.g ending with _1)'.format(len(repeated_field_variables)))
+        print('==> Dropping them for now, will have to find a solution later.')
+    form_variables = [v for v in form_variables if v not in repeated_field_variables]
+
     missing_definitions = set(form_variables) - set(definitions)
     if missing_definitions:
         print('⚠️   Definitions missing for {} {}'.format(form_name, missing_definitions))
-        print('     ==> Dropping those columns!')
+        print('==> Dropping those columns!')
     form_variables = [v for v in form_variables if v in definitions]
 
     return {
@@ -56,7 +65,7 @@ if __name__ == '__main__':
     all_sheets = pd.read_excel(sheet_path, sheetname=None)
 
     all_form_names = list(all_sheets.keys() - ['INDEX'])
-    for form_name in tqdm(all_form_names):
+    for form_name in all_form_names:
         form_sheet = data_sheet.read_form_sheet(sheet_path, all_sheets, form_name)
         form = get_form_for_sheet(form_name, form_sheet, definitions)
         with open(path.join(forms_path, form_name + '.json'), 'w') as f:
