@@ -24,12 +24,12 @@ import validation
 DATA_FILE_NAME = 'OFI Care Book Data, 26-May.xls'
 
 
-def _export_form_sheet(form_sheet, catalog_path):
+def _export_form_sheet(form_sheet, catalog_path, definitions):
     entry_columns = form_sheet.columns[3:]
     for index, row in form_sheet.iterrows():
         try:
             entry_path = _get_entry_path(row)
-            row_object = _convert_row_to_object(row[entry_columns])
+            row_object = _convert_row_to_object(row[entry_columns], definitions)
             os.makedirs(path.dirname(entry_path), exist_ok=True)
             with open(entry_path, 'w') as f:
                 f.write(json.dumps(row_object))
@@ -49,15 +49,18 @@ def _get_entry_path(row):
     return entry_path
 
 
-def _convert_row_to_object(row):
+def _convert_row_to_object(row, definitions):
     return {
-       key: _converter(e)
-       for key, e in row.iteritems()
+       variable: _converter(variable, value, definitions)
+       for variable, value in row.iteritems()
     }
 
 
-def _converter(value):
-    if pd.isnull(value):
+def _converter(variable, value, definitions):
+    is_number = definitions[variable]['type'] == 'number'
+    if is_number and value == 'Ø':
+        return -999
+    elif pd.isnull(value):
         return None
     elif isinstance(value, datetime.datetime):
         return value.strftime('%Y-%m-%d')
@@ -104,4 +107,4 @@ if __name__ == '__main__':
     all_form_names = list(all_sheets.keys() - ['INDEX'])
     for form_name in tqdm(all_form_names):
         form_sheet = data_sheet.read_form_sheet(sheet_path, all_sheets, form_name)
-        _export_form_sheet(form_sheet, catalog_path)
+        _export_form_sheet(form_sheet, catalog_path, definitions)
