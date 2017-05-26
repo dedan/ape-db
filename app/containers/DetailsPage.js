@@ -52,10 +52,10 @@ class DetailsPage extends Component {
     const headerStyle = {
       position: 'absolute',
       top: 0,
-      height: 500,
+      height: 400,
     }
     const mainStyle = {
-      top: 500,
+      top: 400,
       bottom: 0,
       position: 'absolute',
       left: 0,
@@ -65,11 +65,12 @@ class DetailsPage extends Component {
     return (
       <div>
         <div style={headerStyle}>
+          <h2>{book} - {page}</h2>
           <Link to={`/${book}`}>
             <i className="fa fa-arrow-left fa-3x" />
           </Link>
           <ReactImageZoom
-              width={400} height={400} zoomWidth={500}
+              width={400} height={300} zoomWidth={500}
               offset={{vertical: 0, horizontal: 10}}
               img={'file://' + currentPage.original} />
         </div>
