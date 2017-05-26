@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux'
 import path from 'path'
 import Catalog from '../components/Catalog';
 import FileAdder from '../components/FileAdder';
-import {addPage, validateEntries, addNewBookName} from '../actions/actions'
+import * as mixedActions from '../actions/actions'
 import {getSchema} from '../store/schema'
 import {List, ListItem} from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -14,6 +14,8 @@ import _ from 'underscore'
 import PropTypes from 'prop-types';
 import {grey300} from 'material-ui/styles/colors';
 import BusyDialog from '../components/BusyDialog'
+import SettingsDialog from '../components/SettingsDialog'
+
 
 class HomePage extends Component {
 
@@ -43,6 +45,9 @@ class HomePage extends Component {
     }
     return (
       <div>
+        <SettingsDialog
+            isOpen={!settings.path} settings={settings}
+            onSaveSettings={actions.setSettings} />
         <BusyDialog
             isOpen={app.isValidating} />
         <div style={headerStyle}>
@@ -178,7 +183,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({...appActions, validateEntries, addPage, addNewBookName}, dispatch)
+    actions: bindActionCreators({...appActions, ...mixedActions}, dispatch)
   }
 }
 

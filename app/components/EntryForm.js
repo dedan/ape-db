@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {getSchema} from '../store/schema'
-import Form from "react-jsonschema-form"
 import _ from 'underscore'
 var Ajv = require('ajv');
 var ajv = new Ajv({allErrors: true});
