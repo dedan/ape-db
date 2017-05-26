@@ -13,27 +13,30 @@ import sys
 import pandas as pd
 
 import data_sheet
+import validation
 
 DATA_FILE_NAME = 'OFI Care Book Data, 26-May.xls'
 PER_PAGE_VARIABLES = ['source', 'pg#', 'entry#']
 
-RE_REPEATED_FIELD = '.*_\d+$'
 
 def get_form_for_sheet(form_name, form_sheet, definitions):
-    print('\n{}'.format(form_name))
+    errors = []
     form_variables = form_sheet.columns[len(PER_PAGE_VARIABLES):]
 
-    repeated_field_variables = [v for v in form_variables if re.match(RE_REPEATED_FIELD, v)]
+    repeated_field_variables = validation.get_repeated_field_variables(form_variables)
     if repeated_field_variables:
-        print('❕ There are {} repeated field variables (e.g ending with _1)'.format(len(repeated_field_variables)))
-        print('==> Dropping them for now, will have to find a solution later.')
+        errors.append('❕ {} repeated field variables (e.g ending with _1) => dropped'.format(
+            len(repeated_field_variables)))
     form_variables = [v for v in form_variables if v not in repeated_field_variables]
 
     missing_definitions = set(form_variables) - set(definitions)
     if missing_definitions:
-        print('⚠️   Definitions missing for {} {}'.format(form_name, missing_definitions))
-        print('==> Dropping those columns!')
+        errors.append('⚠️   Definitions missing for {} {} ==> Dropping those columns!'.format(
+            form_name, missing_definitions))
     form_variables = [v for v in form_variables if v in definitions]
+    print('\n{} {}'.format(form_name, '✔︎' if not errors else '𝙓'))
+    for error in errors:
+        print(error)
 
     return {
         'type': 'object',
