@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux'
 import path from 'path'
 import Catalog from '../components/Catalog';
 import FileAdder from '../components/FileAdder';
-import {addPage, validateEntries} from '../actions/actions'
+import {addPage, validateEntries, addNewBookName} from '../actions/actions'
 import {getSchema} from '../store/schema'
 import {List, ListItem} from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -68,6 +68,7 @@ class HomePage extends Component {
         </div>
         <FileAdder
             settings={settings}
+            onNewBookCreated={newBookName => actions.addNewBookName(newBookName)}
             onFileCopied={this.handleFileCopied} />
       </div>
     );
@@ -177,7 +178,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({...appActions, validateEntries, addPage}, dispatch)
+    actions: bindActionCreators({...appActions, validateEntries, addPage, addNewBookName}, dispatch)
   }
 }
 

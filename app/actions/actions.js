@@ -25,6 +25,14 @@ const ORIGINAL_REG = /^\w{2}\.\w+\.[MF]\.\d\.\d{4}_p\d{3}\w?.jpg$/
 const THUMBNAIL_REG = /^\w{2}\.\w+\.[MF]\.\d\.\d{4}_p\d{3}_thumbnail.jpg$/
 
 
+export function addNewBookName(newBookName) {
+  return (dispatch, getState) => {
+    const {settings} = getState()
+    settings.bookNames = (settings.bookNames || []).concat([newBookName])
+    dispatch(setSettings(settings))
+  }
+}
+
 export function updateEntry(entryId, properties) {
   return {type: UPDATE_ENTRY, entryId, properties}
 }
@@ -34,14 +42,17 @@ export function addPage(bookId, newPage) {
 }
 
 export function setSettings(settings) {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const oldPath = getState().settings.path
     storage.set('settings', settings, function(error) {
       if (error) throw error;
     });
 
-    initWithPath(settings.formPath)
     dispatch({type: SET_SETTINGS, settings})
-    dispatch(loadCatalog(settings.path))
+    if (oldPath !== settings.path) {
+      initWithPath(settings.formPath)
+      dispatch(loadCatalog(settings.path))
+    }
   }
 }
 
