@@ -46,7 +46,6 @@ def _export_form_sheet(form_sheet, catalog_path):
             entry_path = path.join(catalog_path, book, page, entryFileName)
             os.makedirs(path.dirname(entry_path), exist_ok=True)
 
-            # TODO: Validate with shema before writing.
             with open(entry_path, 'w') as f:
                 row_object = {
                    key: _converter(e)
