@@ -9,6 +9,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
 
+// TODO: Factor with file adder.
 function pad(num, size) {
   var s = "000000000" + num;
   return s.substr(s.length-size);

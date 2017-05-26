@@ -9,6 +9,8 @@ import path from 'path'
 import fs from 'fs-extra'
 import {thumb} from 'node-thumbnail'
 import _ from 'underscore'
+import {PAGE_REG} from '../actions/actions'
+import RegexValidationField from './RegexValidationField'
 
 
 const BOOK_CATEGORIES = {
@@ -123,6 +125,12 @@ function createThumbnail(imagePath) {
 }
 
 
+function pad(num, size) {
+  var s = "000000000" + num;
+  return s.substr(s.length-size);
+}
+
+
 class FileNamingDialog extends Component {
 
   state = {
@@ -134,15 +142,22 @@ class FileNamingDialog extends Component {
   handleSaveClick = () => {
     const {onClose} = this.props
     const {book, page} = this.state
+    const m = /^(\d+)(\w)?$/.exec(page)
+    const pageDigits = m[1]
+    const pageChar = m[2] || ''
+    const correctPageName = 'p' + pad(pageDigits, 3) + pageChar
     onClose({
       book,
-      page,
+      page: correctPageName,
       fileName: `${book}_${page}.jpg`
     })
   }
 
-  handleChange = field => event => {
-    this.setState({[field]: event.target.value})
+  handleChange = field => (event, isInValid) => {
+    this.setState({
+      [field]: event.target.value,
+      [field + 'IsInvalid']: isInValid,
+    })
   }
 
   handleNewBookCreated = newBookName => {
@@ -153,12 +168,12 @@ class FileNamingDialog extends Component {
 
   render() {
     const {bookNames, isOpen, onNewBookCreated} = this.props
-    const {book, page, isNewBookDialogOpen} = this.state
+    const {book, page, isNewBookDialogOpen, pageIsInvalid} = this.state
     const actions = [
       <FlatButton
         label="Save"
         primary={true}
-        disabled={!book || !page}
+        disabled={!book || !page || pageIsInvalid}
         onClick={this.handleSaveClick}
       />,
     ];
@@ -181,9 +196,12 @@ class FileNamingDialog extends Component {
         })}
       </select>
       <br />
-      <TextField
-          hintText="Page" floatingLabelText="Page"
-          onChange={this.handleChange('page')} />
+      <RegexValidationField
+          label="Page"
+          value={page}
+          onChange={this.handleChange('page')}
+          regex={/^\d{1,3}\w?$/}
+          errorMessage="Page can have a maximum of 3 digits plus one optional character" />
     </Dialog>
   }
 }
