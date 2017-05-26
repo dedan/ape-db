@@ -15,7 +15,7 @@ from tqdm import tqdm
 import data_sheet
 
 DATA_FILE_NAME = 'OU.OrangutanName.S.1.2017.xls'
-PER_PAGE_VARIABLES = ['source', 'pg#', 'entry#', 'dataENTRYdate', 'dataENTRYperson']
+PER_PAGE_VARIABLES = ['source', 'pg#', 'entry#']
 
 
 def get_form_for_sheet(form_name, form_sheet, definitions):
