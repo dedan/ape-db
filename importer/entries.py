@@ -26,6 +26,13 @@ DATA_FILE_NAME = 'OFI Care Book Data, 26-May.xls'
 
 def _export_form_sheet(form_sheet, catalog_path, definitions):
     entry_columns = form_sheet.columns[3:]
+    repeated_field_variables = validation.get_repeated_field_variables(entry_columns)
+    entry_columns = [v for v in entry_columns if v not in repeated_field_variables]
+    missing_definitions = set(entry_columns) - set(definitions)
+    if missing_definitions:
+        print('⚠️  Definitions for some columns missing, {}'.format(missing_definitions))
+        print('==> Will not export this sheet!')
+        return
     for index, row in form_sheet.iterrows():
         try:
             entry_path = _get_entry_path(row)
