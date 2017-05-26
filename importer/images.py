@@ -11,8 +11,11 @@ from PIL import Image
 from tqdm import tqdm
 import glob
 import os
+import re
 import shutil
 import sys
+
+import validation
 
 THUMBNAIL_SIZE = 128, 128
 
@@ -26,9 +29,13 @@ if __name__ == '__main__':
 
     image_files = glob.glob(os.path.join(images_path, '**/*.jpg'))
 
+    incorrect_filenames = []
     for image_file in tqdm(image_files):
         try:
             fname, _ = os.path.splitext(os.path.basename(image_file))
+            if not re.match(validation.ORIGINAL_IMAGE_RE, fname):
+                incorrect_filenames.append(fname)
+                continue
             book, page = fname.split('_')[:2]   # Some of them have `_edited` attached
             book = book.upper()
             correct_fname = '{}_{}.jpg'.format(book, page)
@@ -44,3 +51,8 @@ if __name__ == '__main__':
         except Exception as e:
             print(image_file, out_path)
             print(e)
+
+    if incorrect_filenames:
+        print('⚠️  Incorrect filenames')
+        for filename in incorrect_filenames:
+            print(filename)
