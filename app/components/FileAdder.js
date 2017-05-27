@@ -149,7 +149,7 @@ class FileNamingDialog extends Component {
     onClose({
       book,
       page: correctPageName,
-      fileName: `${book}_${page}.jpg`
+      fileName: `${book}_p${page}.jpg`
     })
   }
 
