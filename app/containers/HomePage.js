@@ -49,7 +49,7 @@ class HomePage extends Component {
   setSettingsAndLoadCatalog = settings => {
     const {actions} = this.props
     actions.setSettings(settings)
-    initWithPath(settings.formPath)
+    initWithPath(settings.formsPath)
     actions.loadCatalog(settings.path)
     this.setState({
       isSettingsLoaded: true,
