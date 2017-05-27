@@ -15,9 +15,48 @@ import PropTypes from 'prop-types';
 import {grey300} from 'material-ui/styles/colors';
 import BusyDialog from '../components/BusyDialog'
 import SettingsDialog from '../components/SettingsDialog'
+import storage from 'electron-json-storage';
+import {initWithPath} from '../store/schema'
+import fs from 'fs-extra'
 
 
 class HomePage extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      isCatalogPathInvalid: false,
+      isFormsPathInvalid: false,
+      isSettingsLoaded: false,
+    }
+
+    storage.get('settings', (error, settings) => {
+      if (error) throw error;
+      const isCatalogPathInvalid = !fs.existsSync(settings.path)
+      const isFormsPathInvalid = !fs.existsSync(settings.formsPath)
+      if (isCatalogPathInvalid || isFormsPathInvalid) {
+        this.setState({
+          isCatalogPathInvalid,
+          isFormsPathInvalid,
+          stateSettings: settings,
+        })
+        return
+      }
+      this.setSettingsAndLoadCatalog(settings)
+    })
+  }
+
+  setSettingsAndLoadCatalog = settings => {
+    const {actions} = this.props
+    actions.setSettings(settings)
+    initWithPath(settings.formPath)
+    actions.loadCatalog(settings.path)
+    this.setState({
+      isSettingsLoaded: true,
+      isCatalogPathInvalid: false,
+      isFormsPathInvalid: false,
+    })
+  }
 
   handleFileCopied = (bookId, newPage) => {
     const {actions, settings} = this.props
@@ -26,6 +65,9 @@ class HomePage extends Component {
 
   render() {
     const {actions, app, bookPages, books, entries, selectedBookId, settings} = this.props
+    const {isCatalogPathInvalid, isFormsPathInvalid, stateSettings, isSettingsLoaded} = this.state
+    const invalidPath = isCatalogPathInvalid || isFormsPathInvalid
+    const isSettingsDialogOpen = isSettingsLoaded && !settings.path || invalidPath
     const headerStyle = {
       position: 'absolute',
       top: 0,
@@ -46,8 +88,11 @@ class HomePage extends Component {
     return (
       <div>
         <SettingsDialog
-            isOpen={!settings.path} settings={settings}
-            onSaveSettings={actions.setSettings} />
+            isOpen={isSettingsDialogOpen}
+            settings={invalidPath ?  stateSettings : settings}
+            isCatalogPathInvalid={isCatalogPathInvalid}
+            isFormsPathInvalid={isFormsPathInvalid}
+            onSaveSettings={this.setSettingsAndLoadCatalog} />
         <BusyDialog
             isOpen={app.isValidating} />
         <div style={headerStyle}>

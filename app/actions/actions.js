@@ -47,12 +47,7 @@ export function setSettings(settings) {
     storage.set('settings', settings, function(error) {
       if (error) throw error;
     });
-
     dispatch({type: SET_SETTINGS, settings})
-    if (oldPath !== settings.path) {
-      initWithPath(settings.formPath)
-      dispatch(loadCatalog(settings.path))
-    }
   }
 }
 

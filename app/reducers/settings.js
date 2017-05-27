@@ -1,4 +1,3 @@
-// @flow
 import {SET_SETTINGS} from '../actions/actions';
 
 export type settingsStateType = {
@@ -10,7 +9,8 @@ export type actionType = {
 };
 
 export const settingsInitialState = {
-  path: ''
+  path: '',
+  formsPath: '',
 }
 
 export default function settings(state: settingsStateType = settingsInitialState, action: actionType) {

@@ -4,6 +4,7 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 const {dialog} = require('electron').remote;
+import {amber300} from 'material-ui/styles/colors'
 
 
 class SettingsDialog extends Component {
@@ -32,8 +33,12 @@ class SettingsDialog extends Component {
   }
 
   render() {
-    const {isOpen, settings} = this.props
-
+    const {isCatalogPathInvalid, isFormsPathInvalid, isOpen, settings} = this.props
+    const warningStyle = {
+      marginTop: 20,
+      backgroundColor: amber300,
+      padding: 15,
+    }
     const actions = [
       <FlatButton
         label="Save"
@@ -49,23 +54,34 @@ class SettingsDialog extends Component {
           find the <b>catalog folder</b> (images and entries) and the folder with
           the <b>form schemata</b>. They should be both in the pcloud folder on your computer.
         </div>
+        {isCatalogPathInvalid || isFormsPathInvalid ? <div style={warningStyle}>
+            One of the two folders could not be found.
+            Please set <b>both of them</b> again.
+          </div> :null}
         <br />
         <RaisedButton
           label={`${settings.path ? 'Change' : 'Select'} the catalog path`}
           style={{margin: 12}}
           onClick={this.handlePathClick('path')} />
+        <br />
         <TextField
+          fullWidth={true}
           disabled={true}
-          value={this.state.path || ''}
-          hintText="No catalog path set" />
+          value={this.state.path || settings.path}
+          hintText="No catalog path set"
+          errorText={isCatalogPathInvalid && !this.state.path ? 'Invalid path' : null} />
+        <br />
         <RaisedButton
           label={`${settings.formPath ? 'Change' : 'Select'} the forms path`}
           style={{margin: 12}}
           onClick={this.handlePathClick('formsPath')} />
+        <br />
         <TextField
+          fullWidth={true}
           disabled={true}
-          value={this.state.formsPath || ''}
-          hintText="No forms path set" />
+          value={this.state.formsPath || settings.formsPath}
+          hintText="No forms path set"
+          errorText={isFormsPathInvalid && !this.state.formsPath ? 'Invalid path' : null} />
       </Dialog>
     );
   }
