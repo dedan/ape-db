@@ -182,6 +182,7 @@ class FileNamingDialog extends Component {
     return <Dialog actions={actions} modal={true} open={isOpen}>
       <NewBookDialog
           isOpen={isNewBookDialogOpen}
+          onCloseClick={() => this.setState({isNewBookDialogOpen: false})}
           onNewBookCreated={this.handleNewBookCreated} />
       <div>
         <div>Book Name:</div>
@@ -225,20 +226,28 @@ class NewBookDialog extends Component {
     const {onNewBookCreated} = this.props
     const {bookCategory, apeName, sex, bookType, year} = this.state
     const newBookName = [bookCategory, apeName.toUpperCase(), sex, bookType, year].join('.')
-    console.log('>>', newBookName)
     onNewBookCreated(newBookName)
+    this.setState({
+      bookCategory: '',
+      apeName: '',
+      sex: '',
+      bookType: '',
+      year: '',
+    })
   }
 
   render() {
-    const {isOpen} = this.props
+    const {isOpen, onCloseClick} = this.props
     const {bookCategory, apeName, sex, bookType, year} = this.state
     const actions = [
+      <FlatButton
+        label="close"
+        onClick={onCloseClick} />,
       <FlatButton
         label="Create"
         primary={true}
         disabled={!(bookCategory && apeName && sex && bookType && year)}
-        onClick={this.handleCreateClick}
-      />,
+        onClick={this.handleCreateClick} />,
     ];
     return <Dialog actions={actions} modal={true} open={isOpen}>
       <div>Book Category:</div>
