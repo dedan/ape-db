@@ -30,6 +30,9 @@ class HomePage extends Component {
       isSettingsLoaded: false,
     }
 
+    if (Object.keys(props.books).length) {
+      return
+    }
     storage.get('settings', (error, settings) => {
       if (error) throw error;
       const isCatalogPathInvalid = !fs.existsSync(settings.path)
