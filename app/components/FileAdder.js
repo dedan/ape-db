@@ -201,7 +201,7 @@ class FileNamingDialog extends Component {
           label="Page"
           value={page}
           onChange={this.handleChange('page')}
-          regex={/^\d{1,3}\w?$/}
+          regex={/^\d{1,3}[a-z]?$/}
           errorMessage="Page can have a maximum of 3 digits plus one optional character" />
     </Dialog>
   }
