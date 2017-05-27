@@ -1,6 +1,7 @@
 import path from 'path'
 import fs from 'fs-extra'
 
+const FORMS_REGEX = /^[FMN]-\w{1,4}$/
 
 const cache = {}
 
@@ -37,12 +38,8 @@ export function getFormNames() {
   if (!cache.formNames) {
     const formFileNames = fs.readdirSync(cache.formsPath)
     const formNames = formFileNames.
-      map(formFileName => {
-        return path.basename(formFileName, '.json')
-      }).
-      filter(formName => {
-        return !['.DS_Store', 'definitions'].includes(formName)
-      })
+      map(formFileName => path.basename(formFileName, '.json')).
+      filter(formFileName => FORMS_REGEX.test(formFileName))
     cache.formNames = formNames
   }
   return cache.formNames
