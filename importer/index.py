@@ -1,21 +1,6 @@
 import pandas as pd
 import json
 
-# TODO: Remove when added to Excel sheet.
-MANUAL_DEFINITIONS = {
-    'dataENTRYperson': {
-        'title': 'Data Entry Person',
-        'type': 'string',
-        'enum': ['Habbibi', 'Adam', 'Noelle', 'Habibi', 'Eni'],
-        'enumNames': ['Habbibi', 'Adam', 'Noelle', 'Habibi', 'Eni'],
-    },
-    'dataENTRYdate': {
-        'title': 'Data Entry Date',
-        'type': 'string',
-        'format': 'date',
-    }
-}
-
 
 def get_index_from_sheet(sheet):
     cols_to_use = [
@@ -134,6 +119,5 @@ if __name__ == '__main__':
     all_sheets = pd.read_excel(SHEET_PATH, sheetname=None)
     index = get_index_from_sheet(all_sheets['INDEX'])
     definitions = get_definitions_from_index(index)
-    definitions.update(MANUAL_DEFINITIONS)
     with open(OUT_PATH, 'w') as f:
         json.dump(definitions, f, indent=2)
