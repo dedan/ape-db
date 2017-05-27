@@ -24,7 +24,6 @@ export function getSchema(form) {
   if (!cache[form]) {
     const formPath = [cache.formsPath, form].join(path.sep) + '.json';
     const schema = fs.readJsonSync(formPath)
-    schema.properties = _.pick(schema.properties, Object.keys(definitions))
     schema.definitions = definitions
     cache[form] = schema
   }
