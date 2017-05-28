@@ -1,26 +1,22 @@
 export const SELECT_BOOK = 'SELECT_BOOK'
+export const SET_PAGE_FILTER = 'SET_PAGE_FILTER'
 
-export const SET_WITH_ENTRY_FILTER = 'SET_WITH_ENTRY_FILTER'
-export const SET_ENTRY_VALIDITY_FILTER = 'SET_ENTRY_VALIDITY_FILTER'
-export const SET_ENTRY_TYPE_FILTER = 'SET_ENTRY_TYPE_FILTER'
-export const SET_PLACEHOLDER_ENTRY_FILTER = 'SET_PLACEHOLDER_ENTRY_FILTER'
-
-
+export const PAGE_FILTER_VALUES = {
+  off: 'with any kind of',
+  with: 'with',
+  without: 'without',
+  valid: 'with valid',
+  invalid: 'with invalid',
+  placeholder: 'with placeholder',
+}
 
 export function selectBook(bookId) {
   return {type: SELECT_BOOK, bookId}
 }
 
-export function setWithEntryFilter(value) {
-  if (!['with', 'without', 'off'].includes(value)) {
-    throw 'Invalid filter value'
+export function setPageFilter(value) {
+  if (!PAGE_FILTER_VALUES[value]) {
+    throw `Invalid filter value (${value})`
   }
-  return {type: SET_WITH_ENTRY_FILTER, value}
-}
-
-export function setEntryValidityFilter(value) {
-  if (!['valid', 'invalid', 'off', 'placeholder'].includes(value)) {
-    throw 'Invalid filter value'
-  }
-  return {type: SET_ENTRY_VALIDITY_FILTER, value}
+  return {type: SET_PAGE_FILTER, value}
 }

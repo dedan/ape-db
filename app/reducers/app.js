@@ -1,16 +1,8 @@
-import {
-  SELECT_BOOK,
-  SET_WITH_ENTRY_FILTER,
-  SET_ENTRY_VALIDITY_FILTER,
-} from '../actions/app'
-import {
-  START_ENTRIES_VALIDATION,
-  UPDATE_ALL_ENTRIES,
-} from '../actions/actions'
+import {SELECT_BOOK, SET_PAGE_FILTER} from '../actions/app'
+import {START_ENTRIES_VALIDATION, UPDATE_ALL_ENTRIES} from '../actions/actions'
 
 const initialState = {
-  withEntryFilterValue: 'off',
-  entryValidityFilterValue: 'off',
+  pageFilter: 'off',
   isValidating: false,
 }
 
@@ -31,15 +23,10 @@ export default function app (state=initialState, action) {
         ...state,
         selectedBookId: action.bookId,
       }
-    case SET_WITH_ENTRY_FILTER:
+    case SET_PAGE_FILTER:
       return {
         ...state,
-        withEntryFilterValue: action.value
-      }
-    case SET_ENTRY_VALIDITY_FILTER:
-      return {
-        ...state,
-        entryValidityFilterValue: action.value
+        pageFilter: action.value
       }
     default:
       return state

@@ -18,6 +18,8 @@ import SettingsDialog from '../components/SettingsDialog'
 import storage from 'electron-json-storage';
 import {initWithPath} from '../store/schema'
 import fs from 'fs-extra'
+import {PAGE_FILTER_VALUES} from '../actions/app'
+import {filterBookPages} from '../selectors/catalog'
 
 
 class HomePage extends Component {
@@ -77,11 +79,11 @@ class HomePage extends Component {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      height: 200,
+      height: 300,
       padding: 20,
     }
     const mainStyle = {
-      top: 200,
+      top: 300,
       bottom: 0,
       position: 'absolute',
       left: 0,
@@ -104,8 +106,7 @@ class HomePage extends Component {
           </div>
           <BookIndexFilter
               selectedBookId={selectedBookId}
-              onWithEntryFilterClick={actions.setWithEntryFilter}
-              onEntryValidityFilterClick={actions.setEntryValidityFilter} />
+              onPageFilterClick={actions.setPageFilter} />
           <BookIndexValidation onValidateClick={actions.validateEntries} />
         </div>
         <div style={mainStyle}>
@@ -128,18 +129,13 @@ class HomePage extends Component {
   }
 }
 
-const BookIndexFilter = ({onWithEntryFilterClick, onEntryValidityFilterClick, selectedBookId}) => (
+const BookIndexFilter = ({onPageFilterClick, selectedBookId}) => (
   <div style={{display: 'flex', width: 400}}>
     <FilterRadioGroup
         disabled={!selectedBookId}
-        onChange={onWithEntryFilterClick}
-        values={['off', 'with', 'without']}
-        labels={['Off', 'With entries', 'No entries']} />
-    <FilterRadioGroup
-        disabled={!selectedBookId}
-        onChange={onEntryValidityFilterClick}
-        values={['off', 'valid', 'invalid', 'placeholder']}
-        labels={['Off', 'With valid entries', 'With invalid entries', 'With placeholder']} />
+        onChange={onPageFilterClick}
+        values={Object.keys(PAGE_FILTER_VALUES)}
+        labels={Object.keys(PAGE_FILTER_VALUES)} />
   </div>
 )
 
@@ -187,45 +183,9 @@ const BookList = ({books, onItemClick, selectedBookId}) => (
 
 function mapStateToProps(state) {
   const {app, settings} = state
-  const {selectedBookId, withEntryFilterValue, entryValidityFilterValue} = state.app
+  const {selectedBookId, pageFilter} = state.app
   const {books, entries} = state.catalog
-
-  const bookPages = _.values(books[selectedBookId]).filter(page => {
-
-    let withEntryFilter
-    if (withEntryFilterValue === 'with') {
-      withEntryFilter = page.entries.length
-    } else if (withEntryFilterValue === 'without') {
-      withEntryFilter = !page.entries.length
-    } else if (withEntryFilterValue === 'off') {
-      withEntryFilter = true
-    } else {
-      throw 'Invalid value'
-    }
-
-    let entryValidityFilter
-    if (entryValidityFilterValue === 'valid') {
-      entryValidityFilter = page.entries.some(entryId => {
-        const entry = entries[entryId]
-        return entry.isValidated && entry.isValid
-      })
-    } else if (entryValidityFilterValue === 'invalid') {
-      entryValidityFilter = page.entries.some(entryId => {
-        const entry = entries[entryId]
-        return entry.isValidated && !entry.isValid
-      })
-    } else if (entryValidityFilterValue === 'placeholder') {
-      entryValidityFilter = page.entries.some(entryId => {
-        return entries[entryId].isPlaceholder
-      })
-    } else if (entryValidityFilterValue === 'off') {
-      entryValidityFilter = true
-    } else {
-      throw 'Invalid value'
-    }
-
-    return withEntryFilter && entryValidityFilter
-  })
+  const bookPages = filterBookPages(books[selectedBookId], entries, pageFilter)
   return {app, books, bookPages, entries, selectedBookId, settings}
 }
 
