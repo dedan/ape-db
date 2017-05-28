@@ -104,7 +104,8 @@ export default class FileAdder extends Component {
           onNewBookCreated={onNewBookCreated}
           bookNames={settings.bookNames}
           isOpen={!!this.state.path}
-          onClose={this.handleDialogClose} />
+          onClose={() => this.setState({path: null})}
+          onFileNamed={this.handleDialogClose} />
     </div>
   }
 }
@@ -142,13 +143,13 @@ class FileNamingDialog extends Component {
   }
 
   handleSaveClick = () => {
-    const {onClose} = this.props
+    const {onFileNamed} = this.props
     const {book, page} = this.state
     const m = /^(\d+)(\w)?$/.exec(page)
     const pageDigits = m[1]
     const pageChar = m[2] || ''
     const correctPageName = 'p' + pad(pageDigits, 3) + pageChar
-    onClose({
+    onFileNamed({
       book,
       page: correctPageName,
       fileName: `${book}_p${page}.jpg`
@@ -169,15 +170,15 @@ class FileNamingDialog extends Component {
   }
 
   render() {
-    const {bookNames, isOpen, onNewBookCreated} = this.props
+    const {bookNames, isOpen, onNewBookCreated, onClose} = this.props
     const {book, page, isNewBookDialogOpen, pageIsInvalid} = this.state
     const actions = [
+      <FlatButton label="Close" onClick={onClose} />,
       <FlatButton
         label="Save"
         primary={true}
         disabled={!book || !page || pageIsInvalid}
-        onClick={this.handleSaveClick}
-      />,
+        onClick={this.handleSaveClick} />,
     ];
 
     // TODO: Add validation.
