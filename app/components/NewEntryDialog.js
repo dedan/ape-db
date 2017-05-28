@@ -5,8 +5,8 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import {getFormNames, getSchema} from '../store/schema'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
-import ContentAdd from 'material-ui/svg-icons/content/add';
+import RaisedButton from 'material-ui/RaisedButton';
+import ContentAdd from 'material-ui/svg-icons/action/note-add';
 
 
 // TODO: Factor with file adder.
@@ -85,9 +85,11 @@ export class NewEntryDialog extends Component {
     ]
     return (
       <div style={style}>
-        <FloatingActionButton onClick={() => this.setState({isOpen: true})}>
-          <ContentAdd />
-        </FloatingActionButton>
+        <RaisedButton
+          label="add entry"
+          icon={<ContentAdd />}
+          primary={true}
+          onClick={() => this.setState({isOpen: true})} />
         <Dialog title="New Entry" actions={actions} modal={true} open={isOpen}>
           <TextField
               value={entryCreator}

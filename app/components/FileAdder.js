@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
+import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog'
 import TextField from 'material-ui/TextField'
-import ContentAdd from 'material-ui/svg-icons/content/add';
+import ContentAdd from 'material-ui/svg-icons/image/add-a-photo';
 const {dialog} = require('electron').remote
 import path from 'path'
 import fs from 'fs-extra'
@@ -95,9 +95,11 @@ export default class FileAdder extends Component {
       zIndex: 2,
     }
     return <div style={style}>
-      <FloatingActionButton onClick={this.handleOpenFileClick}>
-        <ContentAdd />
-      </FloatingActionButton>
+      <RaisedButton
+        label="add page"
+        icon={<ContentAdd />}
+        primary={true}
+        onClick={this.handleOpenFileClick} />
       <FileNamingDialog
           onNewBookCreated={onNewBookCreated}
           bookNames={settings.bookNames}
