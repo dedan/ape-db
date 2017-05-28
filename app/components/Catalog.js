@@ -10,7 +10,7 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 import Chip from 'material-ui/Chip';
-import {green300, red300, blue300} from 'material-ui/styles/colors';
+import {green300, red300, blue300, green100, red100, blue100} from 'material-ui/styles/colors';
 
 export default class Catalog extends Component {
 
@@ -22,7 +22,12 @@ export default class Catalog extends Component {
           <TableRow>
             <TableHeaderColumn style={{width: 100}}>Image</TableHeaderColumn>
             <TableHeaderColumn style={{width: 100}}>Page</TableHeaderColumn>
-            <TableHeaderColumn>Entries</TableHeaderColumn>
+            <TableHeaderColumn>
+              <span>Entries</span>
+              <ColoredChip isLight={true} status="valid" label="valid" />
+              <ColoredChip isLight={true} status="invalid" label="invalid" />
+              <ColoredChip isLight={true} status="placeholder" label="placeholder" />
+            </TableHeaderColumn>
           </TableRow>
         </TableHeader>
         <TableBody displayRowCheckbox={false}>
@@ -37,20 +42,10 @@ export default class Catalog extends Component {
               <TableRowColumn>
                 <div style={{display: 'flex', flexWrap: 'wrap'}}>
                   {(page.entries || []).map((entryId, i) => {
-                    const entry = entries[entryId]
-                    const color = entry.isPlaceholder ?
-                      blue300
-                      : entry.isValidated ?
-                        entry.isValid ? green300 : red300
-                        : null
-                    const entryUrl = `/current-page/${bookId}/${page.pageId}/${entryId}`
-                    return <Link to={entryUrl} key={i}>
-                      <Chip
-                          backgroundColor={color}
-                          style={{margin: 4}}>
-                        {entry.form}
-                      </Chip>
-                    </Link>
+                    return <EntryChip
+                        key={entryId}
+                        bookId={bookId} pageId={page.pageId}
+                        entry={entries[entryId]} />
                   })}
                 </div>
               </TableRowColumn>
@@ -63,6 +58,41 @@ export default class Catalog extends Component {
     </div>
   }
 }
+
+
+const CHIP_STATUS_COLORS = {
+  valid: green300,
+  invalid: red300,
+  placeholder: blue300,
+}
+
+const LIGHT_CHIP_STATUS_COLORS = {
+  valid: green100,
+  invalid: red100,
+  placeholder: blue100,
+}
+
+const EntryChip = ({bookId, pageId, entry}) => {
+  const entryStatus = entry.isPlaceholder ?
+    'placeholder'
+    : entry.isValidated ?
+      entry.isValid ? 'valid' : 'invalid'
+      : null
+  const entryUrl = `/current-page/${bookId}/${pageId}/${entry.entryId}`
+  return <Link to={entryUrl}>
+    <ColoredChip style={{cursor: 'pointer'}} status={entryStatus} label={entry.form} />
+  </Link>
+}
+
+const ColoredChip = ({status, label, style, isLight}) => (
+  <Chip
+      backgroundColor={isLight ? LIGHT_CHIP_STATUS_COLORS[status] : CHIP_STATUS_COLORS[status]}
+      style={{margin: 4, ...style}}>
+    {label}
+  </Chip>
+)
+
+
 
 const Thumbnail = ({page, size}) => {
   const filePath = 'file://' + page.thumbnail
