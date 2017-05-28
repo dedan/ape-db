@@ -69,7 +69,7 @@ class HomePage extends Component {
   }
 
   render() {
-    const {actions, app, bookPages, books, entries, selectedBookId, settings} = this.props
+    const {actions, app, bookPages, books, entries, selectedBookId, settings, pageFilter} = this.props
     const {isCatalogPathInvalid, isFormsPathInvalid, stateSettings, isSettingsLoaded} = this.state
     const invalidPath = isCatalogPathInvalid || isFormsPathInvalid
     const isSettingsDialogOpen = isSettingsLoaded && !settings.path || invalidPath
@@ -79,11 +79,12 @@ class HomePage extends Component {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      height: 300,
+      height: 100,
       padding: 20,
+      width: '100%',
     }
     const mainStyle = {
-      top: 300,
+      top: 100,
       bottom: 0,
       position: 'absolute',
       left: 0,
@@ -106,7 +107,8 @@ class HomePage extends Component {
           </div>
           <BookIndexFilter
               selectedBookId={selectedBookId}
-              onPageFilterClick={actions.setPageFilter} />
+              onPageFilterClick={actions.setPageFilter}
+              pageFilter={pageFilter} />
           <BookIndexValidation onValidateClick={actions.validateEntries} />
         </div>
         <div style={mainStyle}>
@@ -129,34 +131,23 @@ class HomePage extends Component {
   }
 }
 
-const BookIndexFilter = ({onPageFilterClick, selectedBookId}) => (
-  <div style={{display: 'flex', width: 400}}>
-    <FilterRadioGroup
-        disabled={!selectedBookId}
-        onChange={onPageFilterClick}
-        values={Object.keys(PAGE_FILTER_VALUES)}
-        labels={Object.keys(PAGE_FILTER_VALUES)} />
+const BookIndexFilter = ({onPageFilterClick, selectedBookId, pageFilter}) => (
+  <div style={{display: 'flex', paddingLeft: 50}}>
+    {pageFilter !== 'off' ? 'Only display pages' : 'Display pages'}
+    <select
+        style={{margin: '0 6px'}}
+        disabled={!selectedBookId} value={pageFilter}
+        onChange={e => onPageFilterClick(e.target.value)}>
+      {_.map(PAGE_FILTER_VALUES, (label, pageFilterValue) => {
+        return <option key={pageFilterValue} value={pageFilterValue}>{label}</option>
+      })}
+    </select>
+    <span>entries.</span>
   </div>
 )
 
-const FilterRadioGroup = ({values, labels, onChange, disabled}) => (
-  <RadioButtonGroup style={{flex: 1}}
-      name={values[0]}
-      onChange={(e, value) => onChange(value)}
-      defaultSelected={values[0]}>
-    {values.map((value, i) => {
-      return <RadioButton
-          disabled={disabled}
-          key={value}
-          value={value} label={labels[i]}
-          style={{marginBottom: 12}} />
-    })}
-  </RadioButtonGroup>
-)
-
-
 const BookIndexValidation = ({onValidateClick}) => (
-  <div>
+  <div style={{alignSelf: 'flex-end'}}>
     <RaisedButton
         label="validate entries"
         style={{margin: 12}}
@@ -186,7 +177,7 @@ function mapStateToProps(state) {
   const {selectedBookId, pageFilter} = state.app
   const {books, entries} = state.catalog
   const bookPages = filterBookPages(books[selectedBookId], entries, pageFilter)
-  return {app, books, bookPages, entries, selectedBookId, settings}
+  return {app, books, bookPages, entries, selectedBookId, settings, pageFilter}
 }
 
 function mapDispatchToProps(dispatch) {
