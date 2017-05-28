@@ -20,6 +20,7 @@ import {initWithPath} from '../store/schema'
 import fs from 'fs-extra'
 import {PAGE_FILTER_VALUES} from '../actions/app'
 import {filterBookPages} from '../selectors/catalog'
+import LeftArrow from 'material-ui/svg-icons/navigation/arrow-back';
 
 
 class HomePage extends Component {
@@ -105,11 +106,12 @@ class HomePage extends Component {
           <div>
             <h2>{Object.keys(books).length} Books</h2>
           </div>
-          <BookIndexFilter
+          {selectedBookId ? <BookIndexFilter
               selectedBookId={selectedBookId}
               onPageFilterClick={actions.setPageFilter}
-              pageFilter={pageFilter} />
-          <BookIndexValidation onValidateClick={actions.validateEntries} />
+              pageFilter={pageFilter} /> : null}
+          {selectedBookId ?
+            <BookIndexValidation onValidateClick={actions.validateEntries} /> : null}
         </div>
         <div style={mainStyle}>
           <div style={{paddingRight: 20, overflowY: 'scroll'}}>
@@ -119,7 +121,9 @@ class HomePage extends Component {
                 selectedBookId={selectedBookId} />
           </div>
           <div style={{overflowY: 'scroll', flex: 1}}>
-            <Catalog bookId={selectedBookId} bookPages={bookPages} entries={entries} />
+            {selectedBookId ?
+              <Catalog bookId={selectedBookId} bookPages={bookPages} entries={entries} />
+              : <SelectBookMessage />}
           </div>
         </div>
         <FileAdder
@@ -130,6 +134,21 @@ class HomePage extends Component {
     );
   }
 }
+
+
+const SelectBookMessage = () => {
+  const style = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+    fontSize: 24,
+  }
+  return <div style={style}>
+     <LeftArrow />&nbsp;&nbsp;&nbsp; Select a book from the list on the left.
+  </div>
+}
+
 
 const BookIndexFilter = ({onPageFilterClick, selectedBookId, pageFilter}) => (
   <div style={{display: 'flex', paddingLeft: 50}}>
