@@ -40,13 +40,17 @@ if __name__ == '__main__':
             book = book.upper()
             correct_fname = '{}_{}.jpg'.format(book, page)
             out_path = os.path.join(catalog_path, book, page, correct_fname)
+            if (os.path.exists(out_path)):
+                continue
             os.makedirs(os.path.dirname(out_path), exist_ok=True)
             shutil.copyfile(image_file, out_path)
 
-            im = Image.open(image_file)
-            im.thumbnail(THUMBNAIL_SIZE)
             thumbnail_fname = '{}_{}_thumbnail.jpg'.format(book, page)
             thumbnail_out_path = os.path.join(catalog_path, book.upper(), page, thumbnail_fname)
+            if (os.path.exists(thumbnail_out_path)):
+                continue
+            im = Image.open(image_file)
+            im.thumbnail(THUMBNAIL_SIZE)
             im.save(thumbnail_out_path, "JPEG")
         except Exception as e:
             print(image_file, out_path)
