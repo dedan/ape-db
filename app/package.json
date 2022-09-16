@@ -15,7 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "ajv": "^5.1.3",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.1",
     "fixed-data-table": "^0.6.4",
     "fixed-data-table-2": "^0.7.17",
     "fs-extra": "^3.0.1",
